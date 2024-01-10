@@ -1,5 +1,6 @@
 using CommentsAPI.Data;
 using CommentsAPI.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions;
 
@@ -11,13 +12,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<CommentsDbContext>(options => 
+builder.Services.AddSqlServer<CommentsDbContext>(builder.Configuration.GetConnectionString("CommentsDB"))
+    .AddIdentityCore<ApplicationUser>()
+    .AddRoles<IdentityRole<int>>()
+    .AddEntityFrameworkStores<CommentsDbContext>();
+/*builder.Services.AddDbContext<CommentsDbContext>(options => 
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("CommentsDB"));
-});
+})*/
+
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<ApplicationUser>() //probaly not gonna use this, check Prog. folder for identity documentation
-    .AddEntityFrameworkStores<CommentsDbContext>();
+
 
 var app = builder.Build();
 
@@ -28,7 +33,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapIdentityApi<ApplicationUser>(); //probaly not gonna use this, check Prog. folder for identity documentation
+/*app.MapIdentityApi<ApplicationUser>(); */ //probaly not gonna use this, check Prog. folder for identity documentation
 
 app.UseHttpsRedirection();
 

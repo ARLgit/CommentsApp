@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Zp1P/TYtm4CN4yoO2/m3Yw/SJF+rKJI4zJuh1qK2mZiSE7amHPssvHxarBS0O98bOSTR9d8Va8h2ziGN0QDkNw==",
+  "dgSpecHash": "7256sRX+eeE0haG3m8m14OB0o2syT5qXcui+3dUeBwjc3wd8FptTLeUmCI9eQ56VtaMlAuQFOxP/JA36tOJ78A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\x\\Desktop\\commentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj",
+  "projectFilePath": "C:\\Users\\x\\Desktop\\CommentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\x\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\x\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

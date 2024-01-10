@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\x\\Desktop\\commentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj": {}
+    "C:\\Users\\x\\Desktop\\CommentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\x\\Desktop\\commentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj": {
+    "C:\\Users\\x\\Desktop\\CommentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\x\\Desktop\\commentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj",
+        "projectUniqueName": "C:\\Users\\x\\Desktop\\CommentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj",
         "projectName": "CommentsAPI",
-        "projectPath": "C:\\Users\\x\\Desktop\\commentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj",
+        "projectPath": "C:\\Users\\x\\Desktop\\CommentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj",
         "packagesPath": "C:\\Users\\x\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\x\\Desktop\\commentsApp\\CommentsAPI\\CommentsAPI\\obj\\",
+        "outputPath": "C:\\Users\\x\\Desktop\\CommentsApp\\CommentsAPI\\CommentsAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

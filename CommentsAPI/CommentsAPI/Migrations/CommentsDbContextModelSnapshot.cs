@@ -118,7 +118,7 @@ namespace CommentsAPI.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ThreadId")
+                    b.Property<int>("ThreadId")
                         .HasColumnType("int");
 
                     b.HasKey("CommentId");
@@ -307,16 +307,20 @@ namespace CommentsAPI.Migrations
                         .IsRequired();
 
                     b.HasOne("CommentsAPI.Entities.Comment", "Parent")
-                        .WithMany()
+                        .WithMany("Replies")
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("CommentsAPI.Entities.Thread", null)
+                    b.HasOne("CommentsAPI.Entities.Thread", "Thread")
                         .WithMany("Comments")
-                        .HasForeignKey("ThreadId");
+                        .HasForeignKey("ThreadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Creator");
 
                     b.Navigation("Parent");
+
+                    b.Navigation("Thread");
                 });
 
             modelBuilder.Entity("CommentsAPI.Entities.Thread", b =>
@@ -386,6 +390,11 @@ namespace CommentsAPI.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Threads");
+                });
+
+            modelBuilder.Entity("CommentsAPI.Entities.Comment", b =>
+                {
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("CommentsAPI.Entities.Thread", b =>

@@ -136,3 +136,4 @@ C:\Users\x\Desktop\commentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\refint\C
 C:\Users\x\Desktop\commentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\CommentsAPI.pdb
 C:\Users\x\Desktop\commentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\CommentsAPI.genruntimeconfig.cache
 C:\Users\x\Desktop\commentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\ref\CommentsAPI.dll
+C:\Users\x\Desktop\CommentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\CommentsAPI.sourcelink.json
