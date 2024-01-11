@@ -29,60 +29,54 @@ namespace CommentsAPI.Services
 
         public async Task<bool> CreateCommentAsync(Comment comment)
         {
-            if (comment == null) throw new ArgumentNullException(nameof(comment));
             try
             {
-                await _dbContext.Comments.AddAsync(comment);
-                var response = await _dbContext.SaveChangesAsync();
-                if (response > 0)
+                if (comment != null)
                 {
-                    return true;
+                    await _dbContext.Comments.AddAsync(comment);
+                    return (await _dbContext.SaveChangesAsync() > 0);
                 }
+                return false;
             }
             catch (Exception)
             {
                 throw;
             }
-            return false;
         }
 
-        public async Task<bool> DeleteCommentAsync(int commentId)
+        public async Task<bool> DeleteCommentAsync(Comment comment)
         {
             try
             {
-                var comment = await _dbContext.Comments.FirstOrDefaultAsync(c => c.CommentId == commentId);
-                _dbContext.Comments.Remove(comment);
-                var response = await _dbContext.SaveChangesAsync();
-                if (response > 0)
+                if (comment != null)
                 {
-                    return true;
+                    _dbContext.Comments.Remove(comment);
+                    return (await _dbContext.SaveChangesAsync() > 0);
                 }
+                return false;
             }
             catch (Exception)
             {
 
                 throw;
             }
-            return false;
         }
 
-        public async Task<bool> EditCommentAsync(Comment comment)
+        public async Task<bool> UpdateCommentAsync(Comment comment)
         {
-            if (comment == null) throw new ArgumentNullException(nameof(comment));
             try
             {
-                _dbContext.Comments.Update(comment);
-                var response = await _dbContext.SaveChangesAsync();
-                if (response > 0)
+                if (comment != null)
                 {
-                    return true;
+                    _dbContext.Comments.Update(comment); 
+                    return (await _dbContext.SaveChangesAsync() > 0);
                 }
+                return false;
             }
             catch (Exception)
             {
                 throw;
             }
-            return false;
         }
 
         public async Task<Comment?> GetCommentAsync(int commentId, bool includeReplies)

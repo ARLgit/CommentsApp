@@ -16,12 +16,17 @@ namespace CommentsAPI.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteThreadAsync(int threadId)
+        public Task<bool> DeleteThreadAsync(Entities.Thread thread)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> EditThreadAsync(int threadId)
+        public Task<bool> UpdateThreadAsync(Entities.Thread thread)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> ThreadExistsAsync(int threadId)
         {
             throw new NotImplementedException();
         }
@@ -37,11 +42,6 @@ namespace CommentsAPI.Services
         }
 
         public Task<IEnumerable<Entities.Thread>> GetThreadsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> ThreadExistsAsync(int threadId)
         {
             throw new NotImplementedException();
         }
