@@ -1,5 +1,6 @@
 ﻿using CommentsAPI.Data;
 using CommentsAPI.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CommentsAPI.Services
 {
@@ -11,39 +12,105 @@ namespace CommentsAPI.Services
             _dbContext = commentsDbContext;
         }
 
-        public Task<bool> CreateThreadAsync(Entities.Thread thread)
+        public async Task<bool> ThreadExistsAsync(int threadId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                bool response = await _dbContext.Threads.AnyAsync(t => t.ThreadId == threadId);
+                return response;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<bool> DeleteThreadAsync(Entities.Thread thread)
+        public async Task<bool> CreateThreadAsync(Entities.Thread thread)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (thread != null)
+                {
+                    await _dbContext.Threads.AddAsync(thread);
+                    return (await _dbContext.SaveChangesAsync() > 0);
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<bool> UpdateThreadAsync(Entities.Thread thread)
+        public async Task<bool> DeleteThreadAsync(Entities.Thread thread)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (thread != null)
+                {
+                    _dbContext.Threads.Remove(thread);
+                    return (await _dbContext.SaveChangesAsync() > 0);
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<bool> ThreadExistsAsync(int threadId)
+        public async Task<bool> UpdateThreadAsync(Entities.Thread thread)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (thread != null)
+                {
+                    _dbContext.Threads.Update(thread);
+                    return (await _dbContext.SaveChangesAsync() > 0);
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<IEnumerable<Entities.Thread>> GetRepliesAsync(int threadId)
+        public async Task<Entities.Thread?> GetThreadAsync(int threadId, bool includeComments)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (includeComments == true)
+                {
+                    return await _dbContext.Threads.Include(t => t.Comments).FirstOrDefaultAsync(t => t.ThreadId == threadId);
+                }
+                else
+                {
+                    return await _dbContext.Threads.FirstOrDefaultAsync(t => t.ThreadId == threadId);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public Task<Entities.Thread?> GetThreadAsync(int threadId, bool includeComments)
+        public async Task<IEnumerable<Entities.Thread>> GetThreadsAsync()
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                return await _dbContext.Threads.ToListAsync();
+            }
+            catch (Exception)
+            {
 
-        public Task<IEnumerable<Entities.Thread>> GetThreadsAsync()
-        {
-            throw new NotImplementedException();
+                throw;
+            }
         }
     }
 }

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "ZxIfGSmyDHrW6y2GgKqr1dy5z4GZ3xZqEJsahFySbd47br1GvBKKhf+KZcO9ZZH5K0F0qhkpWLcHUfL42bRyow==",
+  "dgSpecHash": "ykIhmD7HD8jOIEnyga32vEc9Q1o05vg/X9W1NsuOkwfVXdbhzNFTD7qQgTy1Urn1neaDHecVGoCPQwy0D4/RUA==",
   "success": true,
   "projectFilePath": "C:\\Users\\x\\Desktop\\CommentsApp\\CommentsAPI\\CommentsAPI\\CommentsAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\x\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\x\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\x\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\x\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\x\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
