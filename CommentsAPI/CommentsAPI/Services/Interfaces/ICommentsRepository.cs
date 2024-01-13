@@ -11,5 +11,6 @@ namespace CommentsAPI.Services.Interfaces
         Task<bool> UpdateCommentAsync(Comment comment);
         Task<bool> DeleteCommentAsync(Comment comment);
         Task<IEnumerable<Comment>> GetRepliesAsync(int parentCommentId);
+        Task<IEnumerable<Comment>> GetCommentsByUserAsync(int creatorId);
     }
 }

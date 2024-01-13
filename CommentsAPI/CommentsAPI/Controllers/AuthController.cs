@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CommentsAPI.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
 
@@ -14,12 +15,21 @@ namespace CommentsAPI.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager; 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private readonly IUserStore<ApplicationUser> _userStore;
+        //private readonly IUserEmailStore<ApplicationUser> _userEmailStore;
+        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserStore<ApplicationUser> userStore)
         {
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
             _signInManager = signInManager ??
                 throw new ArgumentNullException(nameof(signInManager));
+            _userStore = userStore ??
+                throw new ArgumentNullException(nameof(userStore));
+            /*if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            _userEmailStore = (IUserEmailStore<ApplicationUser>)_userStore;*/
         }
 
         // GET: api/<AuthController>

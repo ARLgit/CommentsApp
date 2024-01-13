@@ -2,6 +2,7 @@
 using CommentsAPI.Entities;
 using CommentsAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace CommentsAPI.Services
 {
@@ -117,6 +118,19 @@ namespace CommentsAPI.Services
             try
             {
                 return await _dbContext.Comments.Where(c => c.ParentId == parentCommentId).ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<Comment>> GetCommentsByUserAsync(int creatorId)
+        {
+            try
+            {
+                return await _dbContext.Comments.Where(c => c.CreatorId == creatorId).ToListAsync();
             }
             catch (Exception)
             {

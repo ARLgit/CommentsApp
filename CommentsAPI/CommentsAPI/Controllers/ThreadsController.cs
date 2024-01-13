@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CommentsAPI.Services;
+using CommentsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,9 +11,9 @@ namespace CommentsAPI.Controllers
     [ApiController]
     public class ThreadsController : ControllerBase
     {
-        private readonly ThreadsRepository _Threads;
+        private readonly IThreadsRepository _Threads;
         private readonly IMapper _mapper;
-        public ThreadsController(ThreadsRepository threads, IMapper mapper)
+        public ThreadsController(IThreadsRepository threads, IMapper mapper)
         {
             _Threads = threads ??
                 throw new ArgumentNullException(nameof(threads));

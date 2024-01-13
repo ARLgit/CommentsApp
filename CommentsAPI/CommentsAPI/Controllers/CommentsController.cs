@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CommentsAPI.Services;
+using CommentsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,9 +11,9 @@ namespace CommentsAPI.Controllers
     [ApiController]
     public class CommentsController : ControllerBase
     {
-        private readonly CommentsRepository _Comments;
+        private readonly ICommentsRepository _Comments;
         private readonly IMapper _mapper;
-        public CommentsController(CommentsRepository comments, IMapper mapper)
+        public CommentsController(ICommentsRepository comments, IMapper mapper)
         {
             _Comments = comments ?? 
                 throw new ArgumentNullException(nameof(comments));

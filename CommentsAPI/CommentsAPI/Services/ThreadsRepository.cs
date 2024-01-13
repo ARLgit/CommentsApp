@@ -112,5 +112,18 @@ namespace CommentsAPI.Services
                 throw;
             }
         }
+
+        public async Task<IEnumerable<Entities.Thread>> GetThreadsByUserAsync(int creatorId)
+        {
+            try
+            {
+                return await _dbContext.Threads.Where(t => t.CreatorId == creatorId).ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

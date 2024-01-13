@@ -137,3 +137,6 @@ C:\Users\x\Desktop\commentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\Comments
 C:\Users\x\Desktop\commentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\CommentsAPI.genruntimeconfig.cache
 C:\Users\x\Desktop\commentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\ref\CommentsAPI.dll
 C:\Users\x\Desktop\CommentsApp\CommentsAPI\CommentsAPI\obj\Debug\net8.0\CommentsAPI.sourcelink.json
+C:\Users\x\Desktop\CommentsApp\CommentsAPI\CommentsAPI\bin\Debug\net8.0\AutoMapper.dll
+C:\Users\x\Desktop\CommentsApp\CommentsAPI\CommentsAPI\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\x\Desktop\CommentsApp\CommentsAPI\CommentsAPI\bin\Debug\net8.0\Newtonsoft.Json.dll

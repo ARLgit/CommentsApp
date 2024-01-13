@@ -10,5 +10,7 @@ namespace CommentsAPI.Services.Interfaces
         Task<bool> CreateThreadAsync(Entities.Thread thread);
         Task<bool> UpdateThreadAsync(Entities.Thread thread);
         Task<bool> DeleteThreadAsync(Entities.Thread thread);
+        Task<IEnumerable<Entities.Thread>> GetThreadsByUserAsync(int creatorId);
+
     }
 }
