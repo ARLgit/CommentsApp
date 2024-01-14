@@ -15,6 +15,6 @@ namespace CommentsAPI.Models
         public DateTime? LastEdit { get; set; }
         public bool? IsActive { get; set; } = true;
 
-        public UserDTO? Creator { get; set; }
+        public RegisterUserDTO? Creator { get; set; }
     }
 }
