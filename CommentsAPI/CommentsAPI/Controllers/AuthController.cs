@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -75,7 +76,8 @@ namespace CommentsAPI.Controllers
             var user = await _userManager.FindByNameAsync(userData.UserName);
             if (user is null || !await _userManager.CheckPasswordAsync(user, userData.Password))
             {
-                return (IActionResult)Results.Forbid();
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new Response { Status = "Error", Message = "El Usuario no existe o la contraseña es incorrecta." });
             }
 
             var claims = new List<Claim>()
@@ -104,29 +106,82 @@ namespace CommentsAPI.Controllers
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
 
-            return Ok(
-            new Response<string>()
-            {
-                Status = "Success",
-                Value = jwt,
-                Message = "sesión iniciada correctamente."
-            });
-
-
+            return StatusCode(StatusCodes.Status200OK,
+                    new Response<string>()
+                    {
+                        Status = "Success",
+                        Value = jwt,
+                        Message = "sesión iniciada correctamente."
+                    });
         }
 
         // PUT api/<AuthController>/5
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updatedUser)
         {
+            //check ClaimsPrincipal Exists
+            if (User is null)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            //get user id from Sid claim.
+            var id = User.FindFirstValue(ClaimTypes.Sid);
+            if (id == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+            }
+            //get user by id
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "El Usuario no existe." });
+            }
+            //check if user name or email need updating and do so.
+            //
+            //
+            return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = "El Usuario ha side actualizado exitosamente." });
         }
 
         // DELETE api/<AuthController>/5
         [Authorize(AuthenticationSchemes = "Bearer")]
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(string password)
         {
+            //check ClaimsPrincipal Exists
+            if (User is null)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+            //get user id from Sid claim.
+            var id = User.FindFirstValue(ClaimTypes.Sid);
+            if (id == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+            }
+            //get user by id
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "El Usuario no existe." });
+            }
+            //delete the user
+            if (!string.IsNullOrEmpty(password) && await _userManager.CheckPasswordAsync(user, password))
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded) 
+                {
+                    return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = "El Usuario ha side borrado exitosamente." });
+                }
+            }
+            return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "No se ha podido borrar el usuario." });
         }
     }
 }

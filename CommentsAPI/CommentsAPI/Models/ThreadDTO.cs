@@ -13,7 +13,7 @@ namespace CommentsAPI.Models
         public DateTime? CreationDate { get; set; }
         public DateTime? LastEdit { get; set; }
 
-        public virtual RegisterUserDTO? Creator { get; set; }
-        public virtual IEnumerable<CommentDTO>? Comments { get; set; }
+        public virtual RegisterUserDTO? Creator { get; set; } = null;
+        public virtual IEnumerable<CommentDTO>? Comments { get; set; } = Enumerable.Empty<CommentDTO>();
     }
 }
