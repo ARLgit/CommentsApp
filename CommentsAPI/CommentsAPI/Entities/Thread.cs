@@ -18,10 +18,10 @@ namespace CommentsAPI.Entities
         public required string Content { get; set; }
 
         [Required]
-        public required DateTime CreationDate { get; set; }
+        public required DateTime CreationDate { get; set; } = DateTime.Now;
 
         [Required]
-        public required DateTime? LastEdit { get; set; }
+        public required DateTime? LastEdit { get; set; } = DateTime.Now;
 
         [ForeignKey("CreatorId")]
         public virtual ApplicationUser? Creator { get; set; }

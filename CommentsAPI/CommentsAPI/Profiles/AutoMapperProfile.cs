@@ -14,10 +14,13 @@ namespace CommentsAPI.Profiles
 
             #region Thread
             CreateMap<Entities.Thread, ThreadDTO>().ReverseMap();
+
+            CreateMap<Entities.Thread, PostThreadDTO>().ReverseMap();
             #endregion
 
             #region Comment
             CreateMap<Comment, CommentDTO>().ReverseMap();
+            CreateMap<Comment, PostCommentDTO>().ReverseMap();
             #endregion
         }
     }

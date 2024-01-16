@@ -5,7 +5,9 @@ using CommentsAPI.Services;
 using CommentsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using System.Threading;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -42,17 +44,12 @@ namespace CommentsAPI.Controllers
 
         // POST api/<CommentsController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CommentDTO comment)
+        public async Task<IActionResult> Post([FromBody] PostCommentDTO comment)
         {
-            if (comment == null)
+            if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
                     new Response { Status = "Failure", Message = "Comentario no valido." });
-            }
-            if (await _Comments.CommentExistsAsync(comment.CommentId.GetValueOrDefault()))
-            {
-                return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Comentario ya existe." });
             }
             var result = await _Comments.CreateCommentAsync(_mapper.Map<Comment>(comment));
             if (!result)
@@ -66,14 +63,43 @@ namespace CommentsAPI.Controllers
 
         // PUT api/<CommentsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> UpdateComment(int commentId, [FromBody, Required] string content)
         {
-            //hay que implementar esto :S
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "Comentario no valido." });
+            }
+            //Get Sid from claims
+            var id = User.FindFirstValue(ClaimTypes.Sid);
+            if (id == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+            }
+            //get user by id
+            var comment = await _Comments.GetCommentAsync(commentId, false);
+            if (comment == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "El Comentario no existe." });
+            }
+            //update the user and check result
+            comment.Content = content;
+            comment.LastEdit = DateTime.Now;
+            var updateResult = await _Comments.UpdateCommentAsync(comment);
+            if (!updateResult)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response { Status = "Failure", Message = "El comentario no pudo ser actualizado." });
+            }
+            return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = "El comentario ha side actualizado exitosamente." });
         }
 
         // DELETE api/<CommentsController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteComment(int commentId, bool getReplies = false)
+        public async Task<IActionResult> DeleteComment(int commentId)
         {
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
@@ -83,7 +109,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
             }
             //Get the comment and check it exists
-            var comment = await _Comments.GetCommentAsync(commentId, getReplies);
+            var comment = await _Comments.GetCommentAsync(commentId, false);
             if (comment == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,

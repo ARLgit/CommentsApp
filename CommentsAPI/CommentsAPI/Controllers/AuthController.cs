@@ -120,6 +120,12 @@ namespace CommentsAPI.Controllers
         [HttpPut("UpdateUser")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updatedUser)
         {
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "Usuario no valido." });
+            }
+            //Get Sid from claims
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
             {
@@ -133,11 +139,51 @@ namespace CommentsAPI.Controllers
                 return StatusCode(StatusCodes.Status404NotFound,
                     new Response { Status = "Error", Message = "El Usuario no existe." });
             }
-            //check if user name or email need updating and do so.
-            //
-            //
+            //update the user and check result
+            user.Email = updatedUser.Email;
+            user.UserName = updatedUser.UserName;
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response { Status = "Failure", Message = "Usuario no pudo ser actualizado." });
+            }
             return StatusCode(StatusCodes.Status200OK,
                     new Response { Status = "Success", Message = "El Usuario ha side actualizado exitosamente." });
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPut("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO passwords)
+        {
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "Datos no validos." });
+            }
+            //Get Sid from claims
+            var id = User.FindFirstValue(ClaimTypes.Sid);
+            if (id == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+            }
+            //get user by id
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "El Usuario no existe." });
+            }
+            //change the password and check result
+            var updateResult = await _userManager.ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword);
+            if (!updateResult.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response { Status = "Failure", Message = "La contraseña no pudo se cambiada." });
+            }
+            return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = "La contraseña se ha cambiado exitosamente." });
         }
 
         // DELETE api/<AuthController>/5

@@ -4,6 +4,7 @@ using CommentsAPI.Models;
 using CommentsAPI.Services;
 using CommentsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.Design;
 using System.Security.Claims;
@@ -58,18 +59,27 @@ namespace CommentsAPI.Controllers
 
         // POST api/<ThreadsController>
         [HttpPost]
-        public async Task<IActionResult> PostThread([FromBody] ThreadDTO thread)
+        public async Task<IActionResult> PostThread([FromBody] PostThreadDTO thread)
         {
-            if (thread == null)
+            if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
                     new Response { Status = "Failure", Message = "Hilo no valido." });
             }
-            if (await _Threads.ThreadExistsAsync((thread.ThreadId).GetValueOrDefault()))
+            //get user id from Sid claim.
+            var id = User.FindFirstValue(ClaimTypes.Sid);
+            if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Hilo ya existe." });
+                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
             }
+            // check CreatorId matches Sid from claims
+            if (thread.CreatorId.ToString() != id)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden,
+                    new Response { Status = "Error", Message = "Su Id no corresponde con la creatorId proveida en el nuevo hilo." });
+            }
+            // Create thread
             var result = await _Threads.CreateThreadAsync(_mapper.Map<Entities.Thread>(thread));
             if (!result)
             {
@@ -81,9 +91,40 @@ namespace CommentsAPI.Controllers
         }
 
         // PUT api/<ThreadsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("{threadId}")]
+        public async Task<IActionResult> UpdateThread(int threadId, [FromBody] UpdateThreadDTO updatedThread)
         {
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "Hilo no valido." });
+            }
+            //Get Sid from claims
+            var id = User.FindFirstValue(ClaimTypes.Sid);
+            if (id == null)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+            }
+            //get user by id
+            var thread = await _Threads.GetThreadAsync(threadId, false);
+            if (thread == null)
+            {
+                return StatusCode(StatusCodes.Status404NotFound,
+                    new Response { Status = "Error", Message = "El Hilo no existe." });
+            }
+            //update the user and check result
+            thread.Title = updatedThread.Title;
+            thread.Content = updatedThread.Content;
+            thread.LastEdit = DateTime.Now;
+            var updateResult = await _Threads.UpdateThreadAsync(thread);
+            if (!updateResult)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response { Status = "Failure", Message = "Hilo no pudo ser actualizado." });
+            }
+            return StatusCode(StatusCodes.Status200OK,
+                    new Response { Status = "Success", Message = "El Hilo ha side actualizado exitosamente." });
         }
 
         // DELETE api/<ThreadsController>/5
