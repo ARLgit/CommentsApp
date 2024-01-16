@@ -120,12 +120,6 @@ namespace CommentsAPI.Controllers
         [HttpPut("UpdateUser")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO updatedUser)
         {
-            //check ClaimsPrincipal Exists
-            if (User is null)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden);
-            }
-            //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
             {
@@ -151,11 +145,6 @@ namespace CommentsAPI.Controllers
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser(string password)
         {
-            //check ClaimsPrincipal Exists
-            if (User is null)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden);
-            }
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)

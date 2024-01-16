@@ -65,6 +65,11 @@ namespace CommentsAPI.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest,
                     new Response { Status = "Failure", Message = "Hilo no valido." });
             }
+            if (await _Threads.ThreadExistsAsync((thread.ThreadId).GetValueOrDefault()))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "Hilo ya existe." });
+            }
             var result = await _Threads.CreateThreadAsync(_mapper.Map<Entities.Thread>(thread));
             if (!result)
             {
@@ -85,11 +90,6 @@ namespace CommentsAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int threadId)
         {
-            //check ClaimsPrincipal Exists
-            if (User is null)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden);
-            }
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)

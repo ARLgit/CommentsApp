@@ -49,6 +49,11 @@ namespace CommentsAPI.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest,
                     new Response { Status = "Failure", Message = "Comentario no valido." });
             }
+            if (await _Comments.CommentExistsAsync(comment.CommentId.GetValueOrDefault()))
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "Comentario ya existe." });
+            }
             var result = await _Comments.CreateCommentAsync(_mapper.Map<Comment>(comment));
             if (!result)
             {
@@ -70,11 +75,6 @@ namespace CommentsAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteComment(int commentId, bool getReplies = false)
         {
-            //check ClaimsPrincipal Exists
-            if (User is null)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden);
-            }
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
