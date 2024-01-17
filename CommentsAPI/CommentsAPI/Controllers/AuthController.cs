@@ -189,7 +189,7 @@ namespace CommentsAPI.Controllers
         // DELETE api/<AuthController>/5
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("DeleteUser")]
-        public async Task<IActionResult> DeleteUser(string password)
+        public async Task<IActionResult> DeleteUser([FromBody] string password)
         {
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);

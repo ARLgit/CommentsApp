@@ -29,7 +29,7 @@ namespace CommentsAPI.Controllers
         }
 
         // GET api/<CommentsController>/5
-        [HttpGet("{threadId}"), AllowAnonymous]
+        [HttpGet("GetComments/{threadId}"), AllowAnonymous]
         public async Task<IActionResult> GetComments(int threadId)
         {
             var comments = await _Comments.GetCommentsAsync(threadId);
@@ -43,8 +43,8 @@ namespace CommentsAPI.Controllers
         }
 
         // POST api/<CommentsController>
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostCommentDTO comment)
+        [HttpPost("PostComment")]
+        public async Task<IActionResult> PostComment([FromBody] PostCommentDTO comment)
         {
             if (!ModelState.IsValid)
             {
@@ -62,7 +62,7 @@ namespace CommentsAPI.Controllers
         }
 
         // PUT api/<CommentsController>/5
-        [HttpPut("{id}")]
+        [HttpPut("UpdateComment/{commentId}")]
         public async Task<IActionResult> UpdateComment(int commentId, [FromBody, Required] string content)
         {
             if (!ModelState.IsValid)
@@ -98,7 +98,7 @@ namespace CommentsAPI.Controllers
         }
 
         // DELETE api/<CommentsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteComment/{commentId}")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {
             //get user id from Sid claim.

@@ -1,6 +1,8 @@
 ﻿using CommentsAPI.Data;
+using CommentsAPI.Models;
 using CommentsAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Printing;
 
 namespace CommentsAPI.Services
 {
@@ -86,7 +88,11 @@ namespace CommentsAPI.Services
             {
                 if (includeComments == true)
                 {
-                    return await _dbContext.Threads.Include(t => t.Comments).FirstOrDefaultAsync(t => t.ThreadId == threadId);
+                    return await _dbContext.Threads
+                        .Include(t => t.Creator)
+                        .Include(t => t.Comments)
+                        .ThenInclude(c => c.Creator)
+                        .FirstOrDefaultAsync(t => t.ThreadId == threadId);
                 }
                 else
                 {
@@ -100,11 +106,30 @@ namespace CommentsAPI.Services
             }
         }
 
-        public async Task<IEnumerable<Entities.Thread>> GetThreadsAsync()
+        public async Task<(IEnumerable<Entities.Thread>, PaginationMetadata?)> GetThreadsAsync(int CurrentPage = 0, int PageSize = 10, string? searchQuery = null)
         {
             try
             {
-                return await _dbContext.Threads.ToListAsync();
+                var threads = await _dbContext.Threads.ToListAsync();
+                if (!string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    searchQuery = searchQuery.Trim();
+                    threads = threads.Where(a => a.Title.Contains(searchQuery)
+                        || (a.Content != null && a.Content.Contains(searchQuery))).ToList();
+                }
+                if (CurrentPage > 0 && PageSize > 0)
+                {
+                    var totalItemCount = threads.Count();
+
+                    var paginationMetadata = new PaginationMetadata(
+                        totalItemCount, PageSize, CurrentPage, searchQuery);
+
+                    var threadsToReturn = threads
+                    .Skip(PageSize * (CurrentPage - 1))
+                    .Take(PageSize).ToList();
+                    return (threadsToReturn, paginationMetadata);
+                }
+                return (threads, null);
             }
             catch (Exception)
             {

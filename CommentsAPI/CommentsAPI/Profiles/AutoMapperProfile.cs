@@ -9,6 +9,7 @@ namespace CommentsAPI.Profiles
         public AutoMapperProfile()
         {
             #region User
+            CreateMap<ApplicationUser, UserDTO>().ReverseMap();
             CreateMap<ApplicationUser, RegisterUserDTO>().ReverseMap();
             #endregion
 

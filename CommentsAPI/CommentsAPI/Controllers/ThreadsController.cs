@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.Design;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Xml.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,21 +31,26 @@ namespace CommentsAPI.Controllers
         }
 
         // GET: api/<ThreadsController>
-        [HttpGet, AllowAnonymous]
-        public async Task<IActionResult> GetThreads()
+        [HttpGet("GetThreads"), AllowAnonymous]
+        public async Task<IActionResult> GetThreads(int page = 0, int size = 0, string? searchQuery = null)
         {
-            var threads = await _Threads.GetThreadsAsync();
+            var (threads, paginationMetadata) = await _Threads.GetThreadsAsync(page, size, searchQuery);
             if (!threads.Any())
             {
                 return StatusCode(StatusCodes.Status404NotFound,
                     new Response { Status = "Failure", Message = "No se ha encontrado ningun Hilo" });
+            }
+            if (paginationMetadata != null)
+            {
+                Response.Headers.Append("X-Pagination",
+                JsonSerializer.Serialize(paginationMetadata));
             }
             return StatusCode(StatusCodes.Status200OK,
                     new Response<IEnumerable<ThreadDTO>> { Status = "Success", Message = "Hilo encontrado", Value = _mapper.Map<IEnumerable<ThreadDTO>>(threads) });
         }
 
         // GET api/<ThreadsController>/5
-        [HttpGet("{id}"), AllowAnonymous]
+        [HttpGet("GetThread/{threadId}"), AllowAnonymous]
         public async Task<IActionResult> GetThread(int threadId, bool getReplies = true)
         {
             var thread = await _Threads.GetThreadAsync(threadId, getReplies);
@@ -58,7 +64,7 @@ namespace CommentsAPI.Controllers
         }
 
         // POST api/<ThreadsController>
-        [HttpPost]
+        [HttpPost("PostThread")]
         public async Task<IActionResult> PostThread([FromBody] PostThreadDTO thread)
         {
             if (!ModelState.IsValid)
@@ -91,7 +97,7 @@ namespace CommentsAPI.Controllers
         }
 
         // PUT api/<ThreadsController>/5
-        [HttpPut("{threadId}")]
+        [HttpPut("UpdateThread/{threadId}")]
         public async Task<IActionResult> UpdateThread(int threadId, [FromBody] UpdateThreadDTO updatedThread)
         {
             if (!ModelState.IsValid)
@@ -128,8 +134,8 @@ namespace CommentsAPI.Controllers
         }
 
         // DELETE api/<ThreadsController>/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int threadId)
+        [HttpDelete("DeleteThread/{threadId}")]
+        public async Task<IActionResult> DeleteThread(int threadId)
         {
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
