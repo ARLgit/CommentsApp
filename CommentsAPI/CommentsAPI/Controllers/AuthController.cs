@@ -186,7 +186,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = "Success", Message = "La contraseña se ha cambiado exitosamente." });
         }
 
-        // DELETE api/<AuthController>/5
+        // DELETE api/<AuthController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser([FromBody] string password)

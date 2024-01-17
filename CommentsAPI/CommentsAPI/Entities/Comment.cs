@@ -12,7 +12,7 @@ namespace CommentsAPI.Entities
         public required int ThreadId { get; set; }
 
         [Required]
-        public required int CreatorId { get; set; }
+        public required int? CreatorId { get; set; } = null;
 
         public int? ParentId { get; set; }
 
@@ -23,7 +23,7 @@ namespace CommentsAPI.Entities
         public required DateTime CreationDate { get; set; } = DateTime.Now;
 
         [Required]
-        public required DateTime? LastEdit { get; set; } = DateTime.Now;
+        public required DateTime LastEdit { get; set; } = DateTime.Now;
 
         [Required]
         public required bool IsActive { get; set; } = true;

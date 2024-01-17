@@ -133,7 +133,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = "Success", Message = "El Hilo ha side actualizado exitosamente." });
         }
 
-        // DELETE api/<ThreadsController>/5
+        // DELETE api/<ThreadsController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
         [HttpDelete("DeleteThread/{threadId}")]
         public async Task<IActionResult> DeleteThread(int threadId)
         {
@@ -145,7 +145,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
             }
             //Get the comment and check it exists
-            var thread = await _Threads.GetThreadAsync(threadId, false);
+            var thread = await _Threads.GetThreadAsync(threadId, true);
             if (thread == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,

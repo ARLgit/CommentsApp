@@ -33,7 +33,7 @@ namespace CommentsAPI.Controllers
         public async Task<IActionResult> GetComments(int threadId)
         {
             var comments = await _Comments.GetCommentsAsync(threadId);
-            if (comments == null) 
+            if (!comments.Any()) 
             {
                 return StatusCode(StatusCodes.Status404NotFound,
                     new Response { Status = "Failure", Message = "No se ha encontrado ningun comentario" });
@@ -50,6 +50,11 @@ namespace CommentsAPI.Controllers
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
                     new Response { Status = "Failure", Message = "Comentario no valido." });
+            }
+            if (comment.ParentId != null && !(await _Comments.CommentExistsAsync(comment.ParentId))) 
+            {
+                return StatusCode(StatusCodes.Status400BadRequest,
+                    new Response { Status = "Failure", Message = "Comentario padre no existe." });
             }
             var result = await _Comments.CreateCommentAsync(_mapper.Map<Comment>(comment));
             if (!result)
@@ -97,7 +102,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = "Success", Message = "El comentario ha side actualizado exitosamente." });
         }
 
-        // DELETE api/<CommentsController>/5
+        // DELETE api/<CommentsController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
         [HttpDelete("DeleteComment/{commentId}")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {
@@ -109,7 +114,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
             }
             //Get the comment and check it exists
-            var comment = await _Comments.GetCommentAsync(commentId, false);
+            var comment = await _Comments.GetCommentAsync(commentId, true);
             if (comment == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,

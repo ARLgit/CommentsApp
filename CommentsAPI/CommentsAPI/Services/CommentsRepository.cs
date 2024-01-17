@@ -14,10 +14,11 @@ namespace CommentsAPI.Services
             _dbContext = commentsDbContext;
         }
 
-        public async Task<bool> CommentExistsAsync(int commentId)
+        public async Task<bool> CommentExistsAsync(int? commentId)
         {
             try
             {
+                if (commentId == null) { return false; }
                 bool response = await _dbContext.Comments.AnyAsync(c => c.CommentId == commentId);
                 return response;
             }
@@ -32,7 +33,7 @@ namespace CommentsAPI.Services
         {
             try
             {
-                if (comment != null)
+                if (_dbContext.Threads.Where(t => t.ThreadId == comment.ThreadId).Any())
                 {
                     await _dbContext.Comments.AddAsync(comment);
                     return (await _dbContext.SaveChangesAsync() > 0);

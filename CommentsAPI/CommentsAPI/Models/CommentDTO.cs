@@ -30,8 +30,6 @@ namespace CommentsAPI.Models
 
         [Required]
         public DateTime CreationDate { get; set; } = DateTime.Now;
-        [Required]
-        public bool IsActive { get; set; } = true;
     }
 
 }

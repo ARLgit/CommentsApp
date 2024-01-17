@@ -14,10 +14,11 @@ namespace CommentsAPI.Services
             _dbContext = commentsDbContext;
         }
 
-        public async Task<bool> ThreadExistsAsync(int threadId)
+        public async Task<bool> ThreadExistsAsync(int? threadId)
         {
             try
             {
+                if (threadId == null) { return false; }
                 bool response = await _dbContext.Threads.AnyAsync(t => t.ThreadId == threadId);
                 return response;
             }
