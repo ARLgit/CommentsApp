@@ -46,16 +46,20 @@ namespace CommentsAPI.Services
             }
         }
 
-        public async Task<bool> DeleteCommentAsync(Comment comment)
+        public async Task<bool> DeleteCommentAsync(int commentId)
         {
             try
             {
-                if (comment != null)
+                var comment = await _dbContext.Comments.Include(c => c.Replies).FirstAsync(t => t.CommentId == commentId);
+                if (comment.Replies != null && comment.Replies.Any()) 
                 {
-                    _dbContext.Comments.Remove(comment);
-                    return (await _dbContext.SaveChangesAsync() > 0);
+                    foreach (var item in comment.Replies)
+                    {
+                        await DeleteCommentAsync(item.CommentId);
+                    }
                 }
-                return false;
+                _dbContext.Comments.Remove(comment);
+                return (await _dbContext.SaveChangesAsync() > 0);
             }
             catch (Exception)
             {

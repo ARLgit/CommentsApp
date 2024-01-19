@@ -111,7 +111,7 @@ namespace CommentsAPI.Services
         {
             try
             {
-                var threads = await _dbContext.Threads.ToListAsync();
+                var threads = await _dbContext.Threads.Include(t => t.Creator).ToListAsync();
                 if (!string.IsNullOrWhiteSpace(searchQuery))
                 {
                     searchQuery = searchQuery.Trim();

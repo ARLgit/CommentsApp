@@ -9,7 +9,7 @@ namespace CommentsAPI.Services.Interfaces
         Task<bool> CommentExistsAsync(int? commentId);
         Task<bool> CreateCommentAsync(Comment comment);
         Task<bool> UpdateCommentAsync(Comment comment);
-        Task<bool> DeleteCommentAsync(Comment comment);
+        Task<bool> DeleteCommentAsync(/*Comment comment*/ int commentId);
         Task<IEnumerable<Comment>> GetRepliesAsync(int parentCommentId);
         Task<IEnumerable<Comment>> GetCommentsByUserAsync(int creatorId);
     }

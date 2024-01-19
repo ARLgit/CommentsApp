@@ -126,7 +126,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = "Failure", Message = "Este comentario no te pertenece." });
             }
             //delete the comment
-            var result = await _Comments.DeleteCommentAsync(comment);
+            var result = await _Comments.DeleteCommentAsync(comment.CommentId);
             if (!result)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
