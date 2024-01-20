@@ -36,10 +36,10 @@ namespace CommentsAPI.Controllers
             if (!comments.Any()) 
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Failure", Message = "No se ha encontrado ningun comentario" });
+                    new Response { Status = false, Message = "No se ha encontrado ningun comentario" });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response<IEnumerable<CommentDTO>> { Status = "Success", Message = "Comentario encontrado", Value = _mapper.Map<IEnumerable<CommentDTO>>(comments) });
+                    new Response<IEnumerable<CommentDTO>> { Status = true, Message = "Comentario encontrado", Value = _mapper.Map<IEnumerable<CommentDTO>>(comments) });
         }
 
         // POST api/<CommentsController>
@@ -49,21 +49,21 @@ namespace CommentsAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Comentario no valido." });
+                    new Response { Status = false, Message = "Comentario no valido." });
             }
             if (comment.ParentId != null && !(await _Comments.CommentExistsAsync(comment.ParentId))) 
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Comentario padre no existe." });
+                    new Response { Status = false, Message = "Comentario padre no existe." });
             }
             var result = await _Comments.CreateCommentAsync(_mapper.Map<Comment>(comment));
             if (!result)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "No se ha podido crear su comentario." });
+                    new Response { Status = false, Message = "No se ha podido crear su comentario." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "Comentario creado exitosamente." });
+                    new Response { Status = true, Message = "Comentario creado exitosamente." });
         }
 
         // PUT api/<CommentsController>/5
@@ -73,21 +73,21 @@ namespace CommentsAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Comentario no valido." });
+                    new Response { Status = false, Message = "Comentario no valido." });
             }
             //Get Sid from claims
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             //get user by id
             var comment = await _Comments.GetCommentAsync(commentId, false);
             if (comment == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Error", Message = "El Comentario no existe." });
+                    new Response { Status = false, Message = "El Comentario no existe." });
             }
             //update the user and check result
             comment.Content = content;
@@ -96,10 +96,10 @@ namespace CommentsAPI.Controllers
             if (!updateResult)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "El comentario no pudo ser actualizado." });
+                    new Response { Status = false, Message = "El comentario no pudo ser actualizado." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "El comentario ha side actualizado exitosamente." });
+                    new Response { Status = true, Message = "El comentario ha side actualizado exitosamente." });
         }
 
         // DELETE api/<CommentsController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
@@ -111,29 +111,29 @@ namespace CommentsAPI.Controllers
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             //Get the comment and check it exists
             var comment = await _Comments.GetCommentAsync(commentId, true);
             if (comment == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Failure", Message = "Comentario no encontrado." });
+                    new Response { Status = false, Message = "Comentario no encontrado." });
             }
             if (comment.CreatorId.ToString() != id) 
             {
                 return StatusCode(StatusCodes.Status403Forbidden,
-                    new Response { Status = "Failure", Message = "Este comentario no te pertenece." });
+                    new Response { Status = false, Message = "Este comentario no te pertenece." });
             }
             //delete the comment
             var result = await _Comments.DeleteCommentAsync(comment.CommentId);
             if (!result)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "No se ha podido borrar su comentario." });
+                    new Response { Status = false, Message = "No se ha podido borrar su comentario." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "Comentario borrado exitosamente." });
+                    new Response { Status = true, Message = "Comentario borrado exitosamente." });
 
         }
     }

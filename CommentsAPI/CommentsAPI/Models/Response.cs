@@ -2,13 +2,13 @@
 {
     public class Response
     {
-        public string Status { get; set; } = string.Empty;
+        public bool Status { get; set; } = false;
         public string Message { get; set; } = string.Empty;
     }
     public class Response<T>
     {
-        public string Status { get; set; } = string.Empty;
-        public T? Value { get; set; }
+        public bool Status { get; set; } = false;
         public string Message { get; set; } = string.Empty;
+        public T? Value { get; set; }
     }
 }

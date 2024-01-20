@@ -38,7 +38,7 @@ namespace CommentsAPI.Controllers
             if (!threads.Any())
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Failure", Message = "No se ha encontrado ningun Hilo" });
+                    new Response { Status = false, Message = "No se ha encontrado ningun Hilo" });
             }
             if (paginationMetadata != null)
             {
@@ -46,7 +46,7 @@ namespace CommentsAPI.Controllers
                 JsonSerializer.Serialize(paginationMetadata));
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response<IEnumerable<ThreadDTO>> { Status = "Success", Message = "Hilo encontrado", Value = _mapper.Map<IEnumerable<ThreadDTO>>(threads) });
+                    new Response<IEnumerable<ThreadDTO>> { Status = true, Message = "Hilo encontrado", Value = _mapper.Map<IEnumerable<ThreadDTO>>(threads) });
         }
 
         // GET api/<ThreadsController>/5
@@ -57,10 +57,10 @@ namespace CommentsAPI.Controllers
             if (thread == null) 
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Failure", Message = "No se ha encontrado ningun Hilo con esa Id" });
+                    new Response { Status = false, Message = "No se ha encontrado ningun Hilo con esa Id" });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response<ThreadDTO> { Status = "Success", Message = "Hilo encontrado", Value = _mapper.Map<ThreadDTO>(thread) });
+                    new Response<ThreadDTO> { Status = true, Message = "Hilo encontrado", Value = _mapper.Map<ThreadDTO>(thread) });
         }
 
         // POST api/<ThreadsController>
@@ -70,30 +70,30 @@ namespace CommentsAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Hilo no valido." });
+                    new Response { Status = false, Message = "Hilo no valido." });
             }
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             // check CreatorId matches Sid from claims
             if (thread.CreatorId.ToString() != id)
             {
                 return StatusCode(StatusCodes.Status403Forbidden,
-                    new Response { Status = "Error", Message = "Su Id no corresponde con la creatorId proveida en el nuevo hilo." });
+                    new Response { Status = false, Message = "Su Id no corresponde con la creatorId proveida en el nuevo hilo." });
             }
             // Create thread
             var result = await _Threads.CreateThreadAsync(_mapper.Map<Entities.Thread>(thread));
             if (!result)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "No se ha podido crear su hilo." });
+                    new Response { Status = false, Message = "No se ha podido crear su hilo." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "Hilo creado exitosamente." });
+                    new Response { Status = true, Message = "Hilo creado exitosamente." });
         }
 
         // PUT api/<ThreadsController>/5
@@ -103,21 +103,21 @@ namespace CommentsAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Hilo no valido." });
+                    new Response { Status = false, Message = "Hilo no valido." });
             }
             //Get Sid from claims
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             //get user by id
             var thread = await _Threads.GetThreadAsync(threadId, false);
             if (thread == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Error", Message = "El Hilo no existe." });
+                    new Response { Status = false, Message = "El Hilo no existe." });
             }
             //update the user and check result
             thread.Title = updatedThread.Title;
@@ -127,10 +127,10 @@ namespace CommentsAPI.Controllers
             if (!updateResult)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "Hilo no pudo ser actualizado." });
+                    new Response { Status = false, Message = "Hilo no pudo ser actualizado." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "El Hilo ha side actualizado exitosamente." });
+                    new Response { Status = true, Message = "El Hilo ha side actualizado exitosamente." });
         }
 
         // DELETE api/<ThreadsController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
@@ -142,29 +142,29 @@ namespace CommentsAPI.Controllers
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             //Get the comment and check it exists
             var thread = await _Threads.GetThreadAsync(threadId, true);
             if (thread == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Failure", Message = "Hilo no encontrado." });
+                    new Response { Status = false, Message = "Hilo no encontrado." });
             }
             if (thread.CreatorId.ToString() != id)
             {
                 return StatusCode(StatusCodes.Status403Forbidden,
-                    new Response { Status = "Failure", Message = "Este Hilo no te pertenece." });
+                    new Response { Status = false, Message = "Este Hilo no te pertenece." });
             }
             //delete the comment
             var result = await _Threads.DeleteThreadAsync(thread);
             if (!result)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "No se ha podido borrar su hilo." });
+                    new Response { Status = false, Message = "No se ha podido borrar su hilo." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "Hilo borrado exitosamente." });
+                    new Response { Status = true, Message = "Hilo borrado exitosamente." });
         }
     }
 }

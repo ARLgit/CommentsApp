@@ -50,7 +50,7 @@ namespace CommentsAPI.Controllers
             if (userExists != null)
             {
                 return StatusCode(StatusCodes.Status403Forbidden,
-                    new Response { Status = "Error", Message = "El Usuario ya se encuentra registrado." });
+                    new Response { Status = false, Message = "El Usuario ya se encuentra registrado." });
             }
             ApplicationUser user = new()
             {
@@ -62,11 +62,11 @@ namespace CommentsAPI.Controllers
             if (!result.Succeeded)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response<IEnumerable<IdentityError>> { Status = "Error", Value = result.Errors, Message = "El Usuario no ha podido registrarse." });
+                    new Response<IEnumerable<IdentityError>> { Status = false, Value = result.Errors, Message = "El Usuario no ha podido registrarse." });
             }
             await _userManager.AddToRoleAsync(user, "User");
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "El Usuario ha side creado exitosamente." });
+                    new Response { Status = true, Message = "El Usuario ha side creado exitosamente." });
         }
 
         // POST
@@ -77,7 +77,7 @@ namespace CommentsAPI.Controllers
             if (user is null || !await _userManager.CheckPasswordAsync(user, userData.Password))
             {
                 return StatusCode(StatusCodes.Status403Forbidden,
-                    new Response { Status = "Error", Message = "El Usuario no existe o la contraseña es incorrecta." });
+                    new Response { Status = false, Message = "El Usuario no existe o la contraseña es incorrecta." });
             }
 
             var claims = new List<Claim>()
@@ -109,7 +109,7 @@ namespace CommentsAPI.Controllers
             return StatusCode(StatusCodes.Status200OK,
                     new Response<string>()
                     {
-                        Status = "Success",
+                        Status = true,
                         Value = jwt,
                         Message = "sesión iniciada correctamente."
                     });
@@ -123,21 +123,21 @@ namespace CommentsAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Usuario no valido." });
+                    new Response { Status = false, Message = "Usuario no valido." });
             }
             //Get Sid from claims
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             //get user by id
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Error", Message = "El Usuario no existe." });
+                    new Response { Status = false, Message = "El Usuario no existe." });
             }
             //update the user and check result
             user.Email = updatedUser.Email;
@@ -146,10 +146,10 @@ namespace CommentsAPI.Controllers
             if (!updateResult.Succeeded)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "Usuario no pudo ser actualizado." });
+                    new Response { Status = false, Message = "Usuario no pudo ser actualizado." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "El Usuario ha side actualizado exitosamente." });
+                    new Response { Status = true, Message = "El Usuario ha side actualizado exitosamente." });
         }
 
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -159,31 +159,31 @@ namespace CommentsAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "Datos no validos." });
+                    new Response { Status = false, Message = "Datos no validos." });
             }
             //Get Sid from claims
             var id = User.FindFirstValue(ClaimTypes.Sid);
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             //get user by id
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Error", Message = "El Usuario no existe." });
+                    new Response { Status = false, Message = "El Usuario no existe." });
             }
             //change the password and check result
             var updateResult = await _userManager.ChangePasswordAsync(user, passwords.OldPassword, passwords.NewPassword);
             if (!updateResult.Succeeded)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    new Response { Status = "Failure", Message = "La contraseña no pudo se cambiada." });
+                    new Response { Status = false, Message = "La contraseña no pudo se cambiada." });
             }
             return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "La contraseña se ha cambiado exitosamente." });
+                    new Response { Status = true, Message = "La contraseña se ha cambiado exitosamente." });
         }
 
         // DELETE api/<AuthController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
@@ -196,14 +196,14 @@ namespace CommentsAPI.Controllers
             if (id == null)
             {
                 return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Error", Message = "Su Token no cuenta con un Sid." });
+                    new Response { Status = false, Message = "Su Token no cuenta con un Sid." });
             }
             //get user by id
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return StatusCode(StatusCodes.Status404NotFound,
-                    new Response { Status = "Error", Message = "El Usuario no existe." });
+                    new Response { Status = false, Message = "El Usuario no existe." });
             }
             //delete the user
             if (!string.IsNullOrEmpty(password) && await _userManager.CheckPasswordAsync(user, password))
@@ -212,11 +212,11 @@ namespace CommentsAPI.Controllers
                 if (result.Succeeded) 
                 {
                     return StatusCode(StatusCodes.Status200OK,
-                    new Response { Status = "Success", Message = "El Usuario ha side borrado exitosamente." });
+                    new Response { Status = true, Message = "El Usuario ha side borrado exitosamente." });
                 }
             }
             return StatusCode(StatusCodes.Status400BadRequest,
-                    new Response { Status = "Failure", Message = "No se ha podido borrar el usuario." });
+                    new Response { Status = false, Message = "No se ha podido borrar el usuario." });
         }
     }
 }
