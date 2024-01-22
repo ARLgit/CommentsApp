@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-import { CookieService } from 'ngx-cookie-service'; // may need to move it later.
+import { CookieService } from 'ngx-cookie-service';
 import { ResponseApi } from '../Interfaces/response-api';
 import { IChangePassword } from '../Interfaces/Auth/change-password';
 import { ILogIn } from '../Interfaces/Auth/log-in';
 import { IRegisterUser } from '../Interfaces/Auth/register-user';
 import { IUpdateUser } from '../Interfaces/Auth/update-user';
 import { stringify } from 'node:querystring';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,39 @@ export class AuthService {
     return this.http.post<ResponseApi>(`${this.apiUrl}Register`, request)
   }
 
-  logIn(request:ILogIn):Observable<ResponseApi> {
+  logInRequest(request:ILogIn):Observable<ResponseApi> {
     return this.http.post<ResponseApi>(`${this.apiUrl}LogIn`, request)
+  }
+
+  logIn(username:string, password:string):string {
+    const user: ILogIn = {
+      userName: username,
+      password: password
+    };
+    let result:string = "Error inesperado";
+    this.logInRequest(user).subscribe(
+      {
+        next: (response) => {
+          if (!this.cookies.check("token") && response.Status == true)
+          {
+            this.cookies.set("token", String(response.Value));
+          }
+          result = response.Message;
+        },
+        error: (err) => {result = "error"},
+        complete: () => {}
+      }
+    );
+    return result;
+  }
+
+  logOut(): boolean {
+    if (this.cookies.check("token"))
+    {
+      this.cookies.delete("token");
+      return true;
+    }
+    return false;
   }
 
   updateUser(request:IUpdateUser):Observable<ResponseApi> {

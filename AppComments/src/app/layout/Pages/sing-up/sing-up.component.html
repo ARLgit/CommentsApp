@@ -1,1 +1,41 @@
-<p>sing-up works!</p>
+<div class="body">
+    <mat-card class="loginCard">
+        
+        <div class="header">
+            <h2>LogIn</h2>
+        </div>
+
+        <mat-card-content>
+
+            <form [formGroup]="RegistrationForm" (ngSubmit)="registerUser()">
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Usuario</mat-label>
+                    <input formControlName="userName" matInput AutoComplete="off">
+                    <mat-icon matSuffix>account_circle</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input [type]="HidePassword ? 'password':'text'" matInput formControlName="password">
+                    <button mat-icon-button matSuffix (click)="HidePassword = !HidePassword" type="button">
+                        <mat-icon matSuffix>{{HidePassword ? 'visibility_off':'visibility'}}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="email" matInput AutoComplete="off">
+                    <mat-icon matSuffix>mail</mat-icon>
+                </mat-form-field>
+
+                <button class="full-width" mat-raised-button color="primary" type="submit" [disabled]="RegistrationForm.invalid">
+                    <mat-icon matSuffix>create </mat-icon>
+                </button>
+
+            </form>
+
+        </mat-card-content>
+
+    </mat-card>
+</div>
