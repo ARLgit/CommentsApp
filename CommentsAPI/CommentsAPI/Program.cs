@@ -90,6 +90,20 @@ builder.Services.AddAuthorization();
 builder.Services.TryAddScoped<ICommentsRepository, CommentsRepository>();
 builder.Services.TryAddScoped<IThreadsRepository, ThreadsRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(app =>
+    {
+        app.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+
+        /*app.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();*/
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -102,6 +116,8 @@ if (app.Environment.IsDevelopment())
 /*app.MapIdentityApi<ApplicationUser>(); */ //probaly not gonna use this, check Prog. folder for identity documentation
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 

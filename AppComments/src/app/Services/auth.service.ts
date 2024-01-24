@@ -25,29 +25,8 @@ export class AuthService {
   }
 
   logInRequest(request:ILogIn):Observable<ResponseApi> {
-    return this.http.post<ResponseApi>(`${this.apiUrl}LogIn`, request)
-  }
-
-  logIn(username:string, password:string):string {
-    const user: ILogIn = {
-      userName: username,
-      password: password
-    };
-    let result:string = "Error inesperado";
-    this.logInRequest(user).subscribe(
-      {
-        next: (response) => {
-          if (!this.cookies.check("token") && response.Status == true)
-          {
-            this.cookies.set("token", String(response.Value));
-          }
-          result = response.Message;
-        },
-        error: (err) => {result = "error"},
-        complete: () => {}
-      }
-    );
-    return result;
+    let headers = new HttpHeaders();
+    return this.http.post<ResponseApi>(`${this.apiUrl}LogIn`, request, {headers: headers})
   }
 
   logOut(): boolean {

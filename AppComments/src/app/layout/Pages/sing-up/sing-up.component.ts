@@ -5,11 +5,12 @@ import { IRegisterUser } from '../../../Interfaces/Auth/register-user';
 import { AuthService } from '../../../Services/auth.service';
 import { UtilitiesService } from '../../../Services/utilities.service';
 import { MaterialsModule } from '../../../MaterialsModule/materials/materials.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-sing-up',
   standalone: true,
-  imports: [ReactiveFormsModule , MaterialsModule],
+  imports: [CommonModule, ReactiveFormsModule , MaterialsModule],
   templateUrl: './sing-up.component.html',
   styleUrl: './sing-up.component.css'
 })
@@ -46,11 +47,13 @@ export class SingUpComponent implements OnInit {
       email: this.RegistrationForm.value.email
     };
 
+    this.ShowLoading = true;
+
     this.Auth.register(request).subscribe(
       {
         next: response => {
-          this.Utilities.Alert(response.Message, "SingUp");
-          if (response.Status) {
+          this.Utilities.Alert(response.message, "SingUp");
+          if (response.status) {
             this.Router.navigate(["threads"]);
           }
         },
