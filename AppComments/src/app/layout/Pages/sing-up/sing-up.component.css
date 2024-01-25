@@ -3,7 +3,7 @@
     justify-content: center;
     height: 100%;
     align-items: center;
-    background-color: blueviolet;
+    background-color: rgb(54, 40, 68);
 }
 
 .singupCard{
@@ -19,4 +19,8 @@
 
 .full-width{
     width: 80%;
+}
+
+.form{
+    padding-bottom: 2em ;
 }

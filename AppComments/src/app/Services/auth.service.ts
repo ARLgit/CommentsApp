@@ -8,8 +8,8 @@ import { IChangePassword } from '../Interfaces/Auth/change-password';
 import { ILogIn } from '../Interfaces/Auth/log-in';
 import { IRegisterUser } from '../Interfaces/Auth/register-user';
 import { IUpdateUser } from '../Interfaces/Auth/update-user';
-import { stringify } from 'node:querystring';
-import { response } from 'express';
+import { jwtDecode } from "jwt-decode";
+import { ISession } from '../Interfaces/Auth/session';
 
 @Injectable({
   providedIn: 'root'
@@ -24,15 +24,44 @@ export class AuthService {
     return this.http.post<ResponseApi>(`${this.apiUrl}Register`, request)
   }
 
-  logInRequest(request:ILogIn):Observable<ResponseApi> {
+  logIn(request:ILogIn):Observable<ResponseApi> {
     let headers = new HttpHeaders();
     return this.http.post<ResponseApi>(`${this.apiUrl}LogIn`, request, {headers: headers})
+  }
+
+  createSession(token:string):boolean {
+    if (this.cookies.check("token") || this.cookies.check("session"))
+    {
+      return false;
+    }
+    let claims:any = JSON.stringify(jwtDecode(token));
+    this.cookies.set("session", claims)
+    this.cookies.set("token", token);
+    return true;
+  }
+
+  getSession():ISession | null {
+    if (this.cookies.check("session"))
+    {
+      let claims = JSON.parse(this.cookies.get("session"))
+      let session:ISession = {
+        aud: claims["aud"],
+        exp: String(new Date(claims["exp"] * 1000)),
+        role: claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+        name: claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+        sid: claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"],
+        iss: claims["iss"]
+      }
+      return session;
+    }
+    return null;
   }
 
   logOut(): boolean {
     if (this.cookies.check("token"))
     {
       this.cookies.delete("token");
+      this.cookies.delete("session")
       return true;
     }
     return false;

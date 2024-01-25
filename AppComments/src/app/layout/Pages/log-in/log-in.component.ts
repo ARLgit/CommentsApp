@@ -44,6 +44,8 @@ export class LogInComponent implements OnInit {
 
   logIn()
   {
+    this.ShowLoading = true;
+
     const user: ILogIn = {
       userName: this.LogInForm.value.userName,
       password: this.LogInForm.value.password
@@ -51,24 +53,23 @@ export class LogInComponent implements OnInit {
 
     let result:string;
 
-    this.ShowLoading = true;
-
-    this.Auth.logInRequest(user).subscribe(
+    this.Auth.logIn(user).subscribe(
       {
         next: (response:ResponseApi) => {
           if (!this.cookies.check("token") && response.status == true)
           {
-            this.cookies.set("token", String(response.value));
+            this.Auth.createSession(response.value);
           }
           result = response.message;
         },
         error: (err:HttpErrorResponse) => {
-          result = err.error.message
+          this.ShowLoading = false;
+          result = err.error.message;
           this.Utilities.Alert(result, "Ok");
         },
         complete: () => {
-          this.Utilities.Alert(result, "Ok");
           this.ShowLoading = false;
+          this.Utilities.Alert(result, "Ok");
         }
       }
     );

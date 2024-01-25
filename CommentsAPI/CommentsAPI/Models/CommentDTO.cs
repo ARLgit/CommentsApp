@@ -11,6 +11,7 @@ namespace CommentsAPI.Models
         public int? CreatorId { get; set; }
         public int? ParentId { get; set; }
         public string? Content { get; set; }
+        public DateTime? CreationDate { get; set; }
         public DateTime LastEdit { get; set; } = DateTime.Now;
         public bool? IsActive { get; set; } = true;
 

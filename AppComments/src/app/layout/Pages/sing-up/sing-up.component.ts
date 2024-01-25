@@ -41,24 +41,35 @@ export class SingUpComponent implements OnInit {
 
   registerUser()
   {
+    this.ShowLoading = true;
+    
     const request:IRegisterUser = {
       userName: this.RegistrationForm.value.userName,
       password: this.RegistrationForm.value.password,
       email: this.RegistrationForm.value.email
     };
 
-    this.ShowLoading = true;
+    let result:string;
 
     this.Auth.register(request).subscribe(
       {
         next: response => {
-          this.Utilities.Alert(response.message, "SingUp");
+          result = response.message;
           if (response.status) {
+            setTimeout(() => {
             this.Router.navigate(["threads"]);
+          }, 2000)
           }
         },
-        error: err => this.Utilities.Alert("Ha habido un error","Opps!"),
-        complete: () => { this.ShowLoading = false; }
+        error: err => {
+          this.ShowLoading = false;
+          result = err.error.message;
+          this.Utilities.Alert(result,"Opps!")
+        },
+        complete: () => { 
+          this.ShowLoading = false;
+          this.Utilities.Alert(result, "Ok");
+        }
       }
     )
   }
