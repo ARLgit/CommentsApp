@@ -25,8 +25,7 @@ export class AuthService {
   }
 
   logIn(request:ILogIn):Observable<ResponseApi> {
-    let headers = new HttpHeaders();
-    return this.http.post<ResponseApi>(`${this.apiUrl}LogIn`, request, {headers: headers})
+    return this.http.post<ResponseApi>(`${this.apiUrl}LogIn`, request)
   }
 
   createSession(token:string):boolean {
@@ -68,29 +67,15 @@ export class AuthService {
   }
 
   updateUser(request:IUpdateUser):Observable<ResponseApi> {
-    let headers = new HttpHeaders();
-    if (this.cookies.check("token"))
-    {
-      headers.append("Authorization", `bearer ${this.cookies.get("token")}`)
-    }
-    return this.http.put<ResponseApi>(`${this.apiUrl}UpdateUser`, request, {headers: headers})
+    return this.http.put<ResponseApi>(`${this.apiUrl}UpdateUser`, request)
   }
 
   changePassword(request:IChangePassword):Observable<ResponseApi> {
-    let headers = new HttpHeaders();
-    if (this.cookies.check("token"))
-    {
-      headers.append("Authorization", `bearer ${this.cookies.get("token")}`)
-    }
-    return this.http.put<ResponseApi>(`${this.apiUrl}ChangePassword`, request, {headers: headers})
+    return this.http.put<ResponseApi>(`${this.apiUrl}ChangePassword`, request)
   }
 
-  deleteUser(password:string):Observable<ResponseApi> {
-    let headers = new HttpHeaders();
-    if (this.cookies.check("token"))
-    {
-      headers.append("Authorization", `bearer ${this.cookies.get("token")}`)
-    }
-    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteUser`, {body: ["password", password], headers: headers}) 
+  deleteUser(pword:string):Observable<ResponseApi> {
+    console.log(pword)
+    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteUser`, {body: {"password": pword}}) 
   }
 }

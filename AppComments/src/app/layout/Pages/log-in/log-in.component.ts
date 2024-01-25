@@ -76,4 +76,36 @@ export class LogInComponent implements OnInit {
 
   }
 
+  delete()
+  {
+    this.ShowLoading = true;
+
+    const user: ILogIn = {
+      userName: this.LogInForm.value.userName,
+      password: this.LogInForm.value.password
+    };
+
+    let result:string = "delete";
+    console.log(user.password);
+
+    this.Auth.deleteUser(user.password).subscribe(
+      {
+        next: (response:ResponseApi) => {
+          console.log(response.message);
+          result = response.message;
+        },
+        error: (err:HttpErrorResponse) => {
+          this.ShowLoading = false;
+          result = err.error.message;
+          this.Utilities.Alert(result, "Ok");
+        },
+        complete: () => {
+          this.ShowLoading = false;
+          this.Utilities.Alert(result, "Ok");
+        }
+      }
+    );
+
+  }
+
 }
