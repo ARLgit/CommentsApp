@@ -21,6 +21,12 @@ namespace CommentsAPI.Models
         public string Email { get; set; } = string.Empty;
     }
 
+    public class DeleteUserDTO
+    {
+        [Required]
+        public string password { get; set; } = string.Empty;
+    }
+
     public class RegisterUserDTO
     {
         [Required(ErrorMessage = "El nuevo Usuario debe poseer un nombre de Usuario.")]

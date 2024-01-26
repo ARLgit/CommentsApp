@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service'; 
@@ -21,30 +21,15 @@ export class CommentsService {
   }
 
   postComment(request:IPostComment):Observable<ResponseApi> {
-    let headers = new HttpHeaders();
-    if (this.cookies.check("token"))
-    {
-      headers.append("Authorization", `bearer ${this.cookies.get("token")}`)
-    }
-    return this.http.post<ResponseApi>(`${this.apiUrl}PostComment`, request, {headers: headers})
+    return this.http.post<ResponseApi>(`${this.apiUrl}PostComment`, request)
   }
 
   updateComment(commentId:number , request:IUpdateComment):Observable<ResponseApi> {
-    let headers = new HttpHeaders();
-    if (this.cookies.check("token"))
-    {
-      headers.append("Authorization", `bearer ${this.cookies.get("token")}`)
-    }
-    return this.http.put<ResponseApi>(`${this.apiUrl}UpdateComment/${commentId}`, request), {headers: headers}
+    return this.http.put<ResponseApi>(`${this.apiUrl}UpdateComment/${commentId}`, request)
   }
 
   deleteComment(commentId:number):Observable<ResponseApi> {
-    let headers = new HttpHeaders();
-    if (this.cookies.check("token"))
-    {
-      headers.append("Authorization", `bearer ${this.cookies.get("token")}`)
-    }
-    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteComment/${commentId}`, {headers: headers})
+    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteComment/${commentId}`)
   }
 
 }

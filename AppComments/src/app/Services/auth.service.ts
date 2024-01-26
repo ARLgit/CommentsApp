@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service';
@@ -74,8 +74,7 @@ export class AuthService {
     return this.http.put<ResponseApi>(`${this.apiUrl}ChangePassword`, request)
   }
 
-  deleteUser(pword:string):Observable<ResponseApi> {
-    console.log(pword)
-    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteUser`, {body: {"password": pword}}) 
+  deleteUser(password:string):Observable<ResponseApi> {
+    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteUser`, {body: {"password": password}}) 
   }
 }

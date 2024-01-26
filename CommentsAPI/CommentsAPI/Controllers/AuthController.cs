@@ -189,7 +189,7 @@ namespace CommentsAPI.Controllers
         // DELETE api/<AuthController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("DeleteUser")]
-        public async Task<IActionResult> DeleteUser([FromBody] string password)
+        public async Task<IActionResult> DeleteUser([FromBody] DeleteUserDTO userDTO)
         {
             //get user id from Sid claim.
             var id = User.FindFirstValue(ClaimTypes.Sid);
@@ -206,7 +206,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = false, Message = "El Usuario no existe." });
             }
             //delete the user
-            if (!string.IsNullOrEmpty(password) && await _userManager.CheckPasswordAsync(user, password))
+            if (!string.IsNullOrEmpty(userDTO.password) && await _userManager.CheckPasswordAsync(user, userDTO.password))
             {
                 var result = await _userManager.DeleteAsync(user);
                 if (result.Succeeded) 
