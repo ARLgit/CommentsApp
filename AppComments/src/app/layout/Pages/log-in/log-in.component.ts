@@ -41,7 +41,7 @@ export class LogInComponent implements OnInit {
 
   ngOnInit() 
   {
-    
+
   }
 
   logIn()
@@ -63,10 +63,16 @@ export class LogInComponent implements OnInit {
             this.Auth.createSession(response.value);
           }
           result = response.message;
+          if (response.status && (this.Router.url === "/login")) 
+          {
+            setTimeout(() => {
+            this.Router.navigate(["threads"]);
+            }, 2000);
+          }
         },
         error: (err:HttpErrorResponse) => {
-          this.ShowLoading = false;
           result = err.error.message;
+          this.ShowLoading = false;
           this.loggedIn.emit(false)
           this.Utilities.Alert(result, "Ok");
         },
