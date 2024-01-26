@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../Services/auth.service';
@@ -22,6 +22,8 @@ export class LogInComponent implements OnInit {
   LogInForm:FormGroup;
   HidePassword:boolean = true;
   ShowLoading:boolean = false;
+  @Output()
+  loggedIn = new EventEmitter<boolean>()
 
   constructor(
     private FormBuilder:FormBuilder,
@@ -65,10 +67,12 @@ export class LogInComponent implements OnInit {
         error: (err:HttpErrorResponse) => {
           this.ShowLoading = false;
           result = err.error.message;
+          this.loggedIn.emit(false)
           this.Utilities.Alert(result, "Ok");
         },
         complete: () => {
           this.ShowLoading = false;
+          this.loggedIn.emit(true)
           this.Utilities.Alert(result, "Ok");
         }
       }

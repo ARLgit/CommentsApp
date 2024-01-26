@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CommentsAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7a158d5753190e2f10cfa2291c3fcbd69d1d9571")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4a83c4f0f826520a04fee199de78b50065ef3991")]
 [assembly: System.Reflection.AssemblyProductAttribute("CommentsAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CommentsAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
