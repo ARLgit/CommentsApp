@@ -95,12 +95,9 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(app =>
     {
         app.WithOrigins("http://localhost:4200")
+        .WithExposedHeaders("X-Pagination")
         .AllowAnyHeader()
         .AllowAnyMethod();
-
-        /*app.AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod();*/
     });
 });
 

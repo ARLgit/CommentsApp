@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { CookieService } from 'ngx-cookie-service'; // may need to move it later.
@@ -16,18 +16,18 @@ export class ThreadsService {
 
   constructor(private http:HttpClient, private cookies:CookieService) { }
 
-  getThreads(searchQuery:string|null =  null, page: number|null =  null, size: number|null =  null):Observable<ResponseApi> {
+  getThreads(searchQuery:string|null =  null, page: number|null =  null, size: number|null =  null):Observable<HttpResponse<ResponseApi>> {
     let url:string = `${this.apiUrl}GetThreads?`
     if (searchQuery !== null) {
       url += `searchQuery=${searchQuery}`
     }
-    if (page !== null) {
+    if (page !== null && page > 0) {
       url += `&page=${page}`
     }
-    if (size !== null) {
+    if (size !== null && size > 0) {
       url += `&size=${size}`
     }
-    return this.http.get<ResponseApi>(url)
+    return this.http.get<ResponseApi>(url, {observe: 'response'})
   }
 
   getThread(threadId:Number):Observable<ResponseApi> {
