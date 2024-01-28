@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MaterialsModule } from '../../../MaterialsModule/materials/materials.module';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { IThread } from '../../../Interfaces/Threads/thread';
 import { ThreadsService } from '../../../Services/threads.service';
 import { HttpResponse } from '@angular/common/http';
 import { ResponseApi } from '../../../Interfaces/response-api';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-threads',
   standalone: true,
-  imports: [CommonModule, MaterialsModule,],
+  imports: [CommonModule, MaterialsModule, RouterModule, FormsModule],
   templateUrl: './threads.component.html',
   styleUrl: './threads.component.css'
 })
@@ -29,7 +30,18 @@ export class ThreadsComponent implements OnInit{
     private Threads:ThreadsService
   ) 
   {
-    
+    this.Router.routeReuseStrategy.shouldReuseRoute = function(){
+      return false;
+   }
+
+   this.Router.events.subscribe((evt) => {
+      if (evt instanceof NavigationEnd) {
+         // trick the Router into believing it's last link wasn't previously loaded
+         this.Router.navigated = false;
+         // if you need to scroll back to top, here is the right place
+         window.scrollTo(0, 0);
+      }
+  });
   }
 
   ngOnInit(): void 

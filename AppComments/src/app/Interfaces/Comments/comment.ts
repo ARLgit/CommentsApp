@@ -1,13 +1,13 @@
 import { ICreator } from "../Auth/creator";
 
 export interface IComment {
-    CommentId:number,
-    ThreadId:number,
-    CreatorId:number,
-    ParentId:number | null,
-    Content:string,
-    CreationDate:Date,
-    LastEdit:Date,
-    IsActive:boolean,
-    Creator:ICreator | null
+    commentId:number,
+    threadId:number,
+    creatorId:number,
+    parentId:number | null,
+    content:string,
+    creationDate:Date,
+    lastEdit:Date,
+    isActive:boolean,
+    creator:ICreator | null
 }

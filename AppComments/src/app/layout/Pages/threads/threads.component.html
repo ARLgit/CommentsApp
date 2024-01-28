@@ -1,1 +1,57 @@
+<div class="threadsBody">
+
+    <div class="searchBarDiv">
+        <mat-form-field class="searchBar">
+            <input type="tel" matInput placeholder="Buscar" name= "search" [(ngModel)]= "searchQuery">
+            <a matSuffix mat-button [routerLink]="['/threads']" [queryParams]="{ searchQuery: searchQuery }"> <mat-icon >search</mat-icon> </a>
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="(!(threadList && threadList.length > 0)); else threadsBlock">
+
+        <mat-card class="noThreadsCard">
+            <div class="threadsHeader">
+                <h2>Threads</h2>
+            </div>
+            <mat-card-content>
+                <h2>No se encontro ningun hilo</h2>
+            </mat-card-content>
+        </mat-card>
+
+    </div>
+
+    <ng-template #threadsBlock>
+        <div class="threadCardDiv" *ngFor="let thread of threadList">
+            <mat-card class="threadCard">
+                <mat-card-title class="threadHeader">
+                    <h2><a [routerLink]="['/thread', thread.threadId]">{{thread.title}}</a></h2>
+                </mat-card-title>
+                <mat-card-content>
+                    <p>{{thread.content}}</p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </ng-template>
+
+    <div>
+        <nav class="paginationBar">
+            <ul class="navlinks">
+                <li><a class="navlink" [routerLink]="['/threads']" [queryParams]="{ searchQuery: searchQuery, page: 1, size: size }"> First </a></li>
+                <li><a class="navlink" [routerLink]="['/threads']" [queryParams]="(page > 1)?{ searchQuery: searchQuery, page: page-1, size: size }:{ searchQuery: searchQuery, page: page, size: size }"> Prev </a></li>
+
+                <div *ngFor="let navPage of [page-2, page-1, page, page+1, page+2]">
+                    <li *ngIf="navPage > 0 && navPage <= TotalPageCount" class="navlink">
+                        <a [routerLink]="['/threads']" [queryParams]="{ searchQuery: searchQuery, page: navPage, size: size }">
+                            {{navPage}}
+                        </a>
+                    </li>
+                </div>
+                
+                <li><a class="navlink" [routerLink]="['/threads']" [queryParams]="(page < TotalPageCount)?{ searchQuery: searchQuery, page: page+1, size: size }:{ searchQuery: searchQuery, page: page, size: size }"> Next </a></li>
+                <li><a class="navlink" [routerLink]="['/threads']" [queryParams]="{ searchQuery: searchQuery, page: TotalPageCount, size: size }"> Last </a></li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
 <p>threads works!</p>

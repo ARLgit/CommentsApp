@@ -1,5 +1,5 @@
 export interface ICreator {
-    Id:number,
-    UserName:string,
-    Email:string
+    id:number,
+    userName:string,
+    email:string
 }

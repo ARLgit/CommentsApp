@@ -115,7 +115,7 @@ namespace CommentsAPI.Services
                 if (!string.IsNullOrWhiteSpace(searchQuery))
                 {
                     searchQuery = searchQuery.Trim();
-                    threads = threads.Where(a => a.Title.Contains(searchQuery)
+                    threads = threads.Where(a => a.Title.ToLower().Contains(searchQuery.ToLower())
                         || (a.Content != null && a.Content.Contains(searchQuery))).ToList();
                 }
                 if (CurrentPage > 0 && PageSize > 0)

@@ -1,0 +1,88 @@
+.threadsBody{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100% !important;
+    min-width: 80%;
+    align-items: center;
+    background-color: rgb(74, 67, 81);
+}
+
+.searchBarDiv{
+    width: 100% !important;
+    text-align-last: center;
+    padding-top: 1em;
+}
+.searchBar{
+    width: 80%;
+}
+
+.noThreadsCard{
+    max-width: 328px !important;
+    margin: auto;
+    text-align: center;
+    max-height: 600px;
+}
+
+.threadCardDiv{
+    width: 100% !important;
+}
+
+.threadCard{
+    max-width: 100% !important;
+    width: 80% !important;
+    margin: 1em auto;
+    padding: 1em ;
+    text-align: center;
+}
+
+.threadsHeader{
+    text-align: center;
+}
+
+.paginationBar{
+    display: flex;
+}
+
+.navlinks {
+    display: inline-flex;
+    align-items: baseline;
+    list-style-type: none;
+    padding: 0;
+}
+
+.navlinks li {
+    margin-right: 0;
+    margin-left: -1px;
+
+    &:first-child .navlink {
+        border-top-left-radius: 0.5rem;
+        border-bottom-left-radius: 0.5rem;
+    }
+
+    &:last-child .navlink {
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+    }
+}
+
+.navlink {
+    margin-left: 0;
+    border-width: 1px;
+    border-color: rgb(209 213 219);
+    background-color: white;
+    padding: 0.5rem 0.75rem;
+    line-height: 1.25;
+    color: rgb(107 114 128);
+
+    &:hover {
+        background-color: rgb(243 244 246);
+        color: rgb(55 65 81);
+    }
+
+    &.active {
+        background-color: rgb(220, 222, 226);
+        color: rgb(55 65 81);
+    }
+}
