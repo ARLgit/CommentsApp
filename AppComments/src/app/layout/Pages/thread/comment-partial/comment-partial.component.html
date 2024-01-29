@@ -1,0 +1,9 @@
+<div class="comment" id="{{comment?.commentId}}">
+    <div class="commentBody">
+        <p>{{comment?.content}}</p>
+    </div>
+    <div class="replies" *ngIf="getReplies(commentId)">
+        <app-comment-partial *ngFor="let replies of getReplies(commentId)" [repliesList]="repliesList" [comment]="replies">
+        </app-comment-partial>
+    </div>
+</div>

@@ -1,1 +1,4 @@
-<div *ngFor="let r of getReplies(0)"></div>
+<div *ngFor="let replies of getReplies(0)">
+    <app-comment-partial [repliesList]="sortedReplies" [comment]="replies">
+    </app-comment-partial>
+</div>

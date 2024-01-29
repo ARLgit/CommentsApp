@@ -7,11 +7,12 @@ import { ThreadsService } from '../../../Services/threads.service';
 import { ResponseApi } from '../../../Interfaces/response-api';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IComment } from '../../../Interfaces/Comments/comment';
+import { CommentPartialComponent } from './comment-partial/comment-partial.component';
 
 @Component({
   selector: 'app-thread',
   standalone: true,
-  imports: [CommonModule, MaterialsModule, RouterModule, FormsModule],
+  imports: [CommonModule, MaterialsModule, RouterModule, FormsModule, CommentPartialComponent],
   templateUrl: './thread.component.html',
   styleUrl: './thread.component.css'
 })
@@ -47,7 +48,7 @@ export class ThreadComponent implements OnInit{
           if (response.status) 
           {
             this.thread = response.value;
-            this.sortedComments = this.thread?.comments?.sort(function(a,b)
+            this.sortedComments = this.thread?.comments?.sort(function(a,b)// may be unnecesary
             {
               let dateA = new Date(a.creationDate)
               let dateB = new Date(b.creationDate) 
@@ -60,13 +61,13 @@ export class ThreadComponent implements OnInit{
             });
             this.sortedReplies = group;
             
-            Object.entries(this.sortedReplies).forEach(c => {
+            /*Object.entries(this.sortedReplies).forEach(c => {
               console.log(c[1]);
-            })
+            })*/
 
-            console.log(this.thread);
+            /*console.log(this.thread);
             console.log(this.sortedComments);
-            console.log(this.sortedReplies);
+            console.log(this.sortedReplies);*/
           }
         },
         error: (err) => {
@@ -82,7 +83,7 @@ export class ThreadComponent implements OnInit{
 
   getReplies(id:number):IComment[] 
   {
-    return this.sortedReplies[id]
+    return id >= 0 ? this.sortedReplies[id] : []
   }
 
 }
