@@ -86,3 +86,11 @@
         color: rgb(55 65 81);
     }
 }
+
+.fab-button {
+    top: auto !important;
+    right: 20px !important;
+    bottom: 10px !important;
+    left: auto !important;
+    position: fixed !important;
+}

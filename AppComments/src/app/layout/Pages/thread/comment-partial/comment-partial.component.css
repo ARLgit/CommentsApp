@@ -1,0 +1,9 @@
+.comment{
+    margin-left: 2em;
+}
+.commentBody{
+    max-width: 100% !important;
+    width: 80% !important;
+    margin: 1em auto;
+    text-align: start;
+}

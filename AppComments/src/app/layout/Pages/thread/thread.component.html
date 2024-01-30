@@ -1,4 +1,29 @@
-<div *ngFor="let replies of getReplies(0)">
-    <app-comment-partial [repliesList]="sortedReplies" [comment]="replies">
-    </app-comment-partial>
-</div>
+<div class="thread">
+    <div class="threadBody">
+        <mat-card class="threadCard">
+            <mat-card-header>
+                <mat-card-title>{{thread?.title}}</mat-card-title>
+              <mat-card-subtitle>{{thread?.creator?.userName}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content style="margin: 1em;">
+                <p>{{thread?.content}}</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button mat-button (click)="showReplyBox=!showReplyBox">Responder</button>
+              <button disabled="true" mat-button>Editar</button>
+            </mat-card-actions>
+            <mat-card-footer *ngIf="showReplyBox" class="reply">
+              <mat-form-field class="replyBox" id="threadReplyBox">
+                <textarea matInput placeholder="Responder" [(ngModel)]="threadReply" name= "responseToThread"></textarea>
+                <a matSuffix mat-button (click)="reply()"> <mat-icon >send</mat-icon> Responder</a>
+              </mat-form-field>
+            </mat-card-footer>
+          </mat-card>
+          <div *ngFor="let replies of getReplies(0)">
+              <app-comment-partial [repliesList]="sortedReplies" [comment]="replies">
+              </app-comment-partial>
+          </div>
+    </div>
+    <a mat-fab class="fab-button" [routerLink]="['/threads']">
+        <mat-icon>arrow_back</mat-icon>
+    </a>

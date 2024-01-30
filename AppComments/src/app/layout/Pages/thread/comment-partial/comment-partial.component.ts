@@ -22,7 +22,9 @@ export class CommentPartialComponent implements OnInit{
   @Input()
   comment: IComment  | null  = null;
 
-  commentId:number = 0
+  commentId:number = 0;
+  showReplyBox:boolean = false;
+  commentReply:string = '';
   
   constructor(
     private Router:Router,
@@ -41,6 +43,10 @@ export class CommentPartialComponent implements OnInit{
   getReplies(id:number):IComment[] 
   {
     return id > 0 ? this.repliesList[id] : [] 
+  }
+
+  reply():void {
+    
   }
 
 }

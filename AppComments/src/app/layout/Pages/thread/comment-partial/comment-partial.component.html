@@ -1,6 +1,23 @@
 <div class="comment" id="{{comment?.commentId}}">
     <div class="commentBody">
-        <p>{{comment?.content}}</p>
+        <mat-card>
+            <mat-card-header>
+              <mat-card-subtitle>{{comment?.creator?.userName}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content style="margin: 1em;">
+                <p>{{comment?.content}}</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+              <button mat-button (click)="showReplyBox=!showReplyBox">Responder</button>
+              <button disabled="true" mat-button>Editar</button>
+            </mat-card-actions>
+            <mat-card-footer *ngIf="showReplyBox" class="reply">
+              <mat-form-field class="replyBox" id="threadReplyBox">
+                <textarea matInput placeholder="Responder" [(ngModel)]="commentReply" name= "responseToThread"></textarea>
+                <a matSuffix mat-button (click)="reply()"> <mat-icon >send</mat-icon> Responder</a>
+              </mat-form-field>
+            </mat-card-footer>
+          </mat-card>
     </div>
     <div class="replies" *ngIf="getReplies(commentId)">
         <app-comment-partial *ngFor="let replies of getReplies(commentId)" [repliesList]="repliesList" [comment]="replies">

@@ -73,7 +73,7 @@ export class ThreadsComponent implements OnInit{
           //console.log(err);
         },
         complete: () => {
-          console.log('completed');
+          //console.log('completed');
         } 
       }
     )
