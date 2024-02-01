@@ -57,8 +57,8 @@ export class SingUpComponent implements OnInit {
           result = response.message;
           if (response.status) {
             setTimeout(() => {
-            this.Router.navigate(["threads"]);
-          }, 2000)
+              this.Router.navigate(["threads"]);
+            }, 2000)
           }
         },
         error: err => {
@@ -71,7 +71,7 @@ export class SingUpComponent implements OnInit {
           this.Utilities.Alert(result, "Ok");
         }
       }
-    )
+    );
   }
 
 }

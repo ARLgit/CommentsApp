@@ -68,7 +68,7 @@ namespace CommentsAPI.Controllers
 
         // PUT api/<CommentsController>/5
         [HttpPut("UpdateComment/{commentId}")]
-        public async Task<IActionResult> UpdateComment(int commentId, [FromBody, Required] string content)
+        public async Task<IActionResult> UpdateComment(int commentId, [FromBody, Required] UpdateCommentDTO updateCommentDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = false, Message = "El Comentario no existe." });
             }
             //update the user and check result
-            comment.Content = content;
+            comment.Content = updateCommentDTO.Content;
             comment.LastEdit = DateTime.Now;
             var updateResult = await _Comments.UpdateCommentAsync(comment);
             if (!updateResult)

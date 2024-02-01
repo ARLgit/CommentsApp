@@ -38,11 +38,11 @@ export class ThreadsService {
     return this.http.post<ResponseApi>(`${this.apiUrl}PostThread`, request)
   }
 
-  updateThread(commentId:number , request:IUpdateThread):Observable<ResponseApi> {
-    return this.http.put<ResponseApi>(`${this.apiUrl}UpdateThread/${commentId}`, request)
+  updateThread(threadId:number , request:IUpdateThread):Observable<ResponseApi> {
+    return this.http.put<ResponseApi>(`${this.apiUrl}UpdateThread/${threadId}`, request)
   }
 
-  deleteThread(commentId:number):Observable<ResponseApi> {
-    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteThread/${commentId}`)
+  deleteThread(threadId:number):Observable<ResponseApi> {
+    return this.http.delete<ResponseApi>(`${this.apiUrl}DeleteThread/${threadId}`)
   }
 }

@@ -32,5 +32,11 @@ namespace CommentsAPI.Models
         [Required]
         public DateTime CreationDate { get; set; } = DateTime.Now;
     }
+    public class UpdateCommentDTO
+    {
+
+        [Required]
+        public string Content { get; set; } = string.Empty;
+    }
 
 }
