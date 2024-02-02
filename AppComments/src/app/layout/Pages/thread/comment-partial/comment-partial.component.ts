@@ -73,6 +73,7 @@ export class CommentPartialComponent implements OnInit{
     if (loggedIn)
     {
       this.commentReply = '';
+      this.editBoxState? this.editBoxState = false : false;
       this.replyBoxState =! this.replyBoxState;
     }
     else
@@ -86,6 +87,7 @@ export class CommentPartialComponent implements OnInit{
     if (owner)
     {
       this.commentContentEdit = String(this.comment?.content);
+      this.replyBoxState? this.replyBoxState = false : false;
       this.editBoxState =! this.editBoxState;
     }
     else
@@ -170,12 +172,14 @@ export class CommentPartialComponent implements OnInit{
                 setTimeout(() => {
                   this.Utilities.Alert(response.message, "Ok");
                 }, 1000)
-                this.Router.navigate(['thread/', this.threadId])
               }
             },
             error: err => {
               console.log(err);
               this.Utilities.Alert(err.error.message,"Opps!")
+            },
+            complete: () => {
+              this.Router.navigate(['thread/', this.threadId])
             }
           }
         );

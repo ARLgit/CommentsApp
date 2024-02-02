@@ -101,6 +101,7 @@ export class ThreadComponent implements OnInit{
     if (loggedIn)
     {
       this.threadReply = '';
+      this.editBoxState? this.editBoxState = false : false;
       this.replyBoxState =! this.replyBoxState;
     }
     else
@@ -115,6 +116,7 @@ export class ThreadComponent implements OnInit{
     {
       this.threadTitleEdit = String(this.thread?.title);
       this.threadContentEdit = String(this.thread?.content);
+      this.replyBoxState? this.replyBoxState = false : false;
       this.editBoxState =! this.editBoxState;
     }
     else
@@ -159,12 +161,14 @@ export class ThreadComponent implements OnInit{
             if (response.status) {
               setTimeout(() => {
                 this.Utilities.Alert(response.message, "Ok");
-              }, 1000)
-              this.Router.navigate(['thread/', this.id])           
+              }, 1000)           
             }
           },
           error: err => {
             this.Utilities.Alert(err.error.message,"Opps!")
+          },
+          complete: () => {
+            this.Router.navigate(['thread/', this.id])
           }
         }
       );
@@ -189,12 +193,14 @@ export class ThreadComponent implements OnInit{
             if (response.status) {
               setTimeout(() => {
                 this.Utilities.Alert(response.message, "Ok");
-              }, 1000)
-              this.Router.navigate(['thread/', this.id])           
+              }, 1000)   
             }
           },
           error: err => {
             this.Utilities.Alert(err.error.message,"Opps!")
+          },
+          complete: () => {
+            this.Router.navigate(['thread/', this.id])
           }
         }
       );
@@ -215,12 +221,14 @@ export class ThreadComponent implements OnInit{
             if (response.status) {
               setTimeout(() => {
                 this.Utilities.Alert(response.message, "Ok");
-              }, 1000)
-              this.Router.navigate(['/threads'])           
+              }, 1000)          
             }
           },
           error: err => {
             this.Utilities.Alert(err.error.message,"Opps!")
+          },
+          complete: () => {
+            this.Router.navigate(['thread/', this.id])
           }
         }
       );

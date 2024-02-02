@@ -16,18 +16,23 @@
               </div>
             </mat-card-actions>
             <mat-card-footer class="card-footer">
-              <mat-form-field *ngIf="replyBoxState" class="replyBox" id="threadReplyBox">
-                <textarea matInput [(ngModel)]="threadReply" name= "responseToThread"></textarea>
-                <a matSuffix mat-button (click)="reply()"> <mat-icon >send</mat-icon> Responder</a>
-              </mat-form-field>
-              <div *ngIf="editBoxState" style="display: flex; flex-direction: column;">
-                <mat-form-field id="threadTitleEditor">
-                  <input type="text" [(ngModel)]="threadTitleEdit">
+              <div *ngIf="replyBoxState" class="replyBox" id="threadReplyBox">
+                <mat-form-field appearance="outline">
+                  <mat-label>Respuesta:</mat-label>
+                  <textarea matInput [(ngModel)]="threadReply" name= "responseToThread"></textarea>
+                  <a matSuffix mat-button (click)="reply()"> <mat-icon >send</mat-icon> Responder</a>
                 </mat-form-field>
-                <mat-form-field id="threadContentEditor">
+              </div>
+              <div *ngIf="editBoxState"  class="editBox" id="commentEditBox">
+                <mat-form-field appearance="outline" id="threadTitleEditor">
+                  <mat-label>Titulo</mat-label>
+                  <input matInput type="text" [(ngModel)]="threadTitleEdit">
+                </mat-form-field>
+                <mat-form-field appearance="outline" id="threadContentEditor">
+                  <mat-label>Contenido</mat-label>
                   <textarea matInput [(ngModel)]="threadContentEdit"></textarea>
                 </mat-form-field>
-                <a matSuffix mat-button (click)="edit()"> <mat-icon >send</mat-icon> Editar</a>
+                <a matSuffix mat-button (click)="edit()"> <mat-icon >edit</mat-icon> Editar</a>
               </div>
             </mat-card-footer>
           </mat-card>
