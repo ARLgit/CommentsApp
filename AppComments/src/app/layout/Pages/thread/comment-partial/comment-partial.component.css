@@ -1,12 +1,18 @@
 .comment{
-    margin-left: 2em;
+    text-align: -webkit-right;
+    min-width:90% !important;
 }
 
 .commentBody{
-    max-width: 100% !important;
-    width: 80% !important;
     margin: 1em auto;
+    margin-left: 2em;
+    margin-right: 2em;
     text-align: start;
+}
+
+.replies{
+    margin-left: 2em;
+    border-left: ridge;
 }
 
 .replyBox{

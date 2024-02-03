@@ -25,10 +25,10 @@
           <a mat-menu-item routerLink="/singup"  routerLinkActive="active"><mat-icon matSuffix>create </mat-icon> Crear Cuenta </a>
         </div>
         <ng-template #loggedInBlock>
-          <a href="" mat-menu-item>
+          <a [routerLink]="['newthread']" mat-menu-item>
             <mat-icon matSuffix>add </mat-icon>Crear nuevo hilo
           </a>
-          <a href="" mat-menu-item>
+          <a [routerLink]="['account']" mat-menu-item>
             <mat-icon matSuffix>edit </mat-icon>Modificar cuenta.
           </a>
           <button (click)="logOut()" mat-menu-item>

@@ -3,6 +3,7 @@ export interface ISession {
     exp: string,
     role: string,
     name: string,
+    email: string,
     sid: string,
     iss: string
 }

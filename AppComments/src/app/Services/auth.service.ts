@@ -48,6 +48,7 @@ export class AuthService {
         exp: String(new Date(claims["exp"] * 1000)),
         role: claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
         name: claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+        email: claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"],
         sid: claims["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"],
         iss: claims["iss"]
       }

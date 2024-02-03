@@ -5,7 +5,7 @@ import { LogInComponent } from './layout/Pages/log-in/log-in.component';
 import { SingUpComponent } from './layout/Pages/sing-up/sing-up.component';
 import { ThreadComponent } from './layout/Pages/thread/thread.component';
 import { NewThreadComponent } from './layout/Pages/new-thread/new-thread.component';
-import { EditAccountComponent } from './layout/Pages/edit-account/edit-account.component';
+import { AccountManagementComponent } from './layout/Pages/account-management/account-management.component';
 
 export const routes: Routes = [{
     path:'',
@@ -16,7 +16,7 @@ export const routes: Routes = [{
         {path:'login', component:LogInComponent},
         {path:'thread/:id', component:ThreadComponent},
         {path:'newthread', component:NewThreadComponent},
-        {path:'account', component:EditAccountComponent},
+        {path:'account', component:AccountManagementComponent},
         {path:'', component:ThreadsComponent},
         {path:'**', component:ThreadsComponent}
     ]

@@ -1,0 +1,28 @@
+.body{
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+    background-color: rgb(74, 67, 81);
+}
+
+.formCard{
+    max-width: 600px !important;
+    min-width: 328px !important;
+    margin: 2em auto;
+    padding-top: 1em;
+    text-align: center;
+    max-height: 600px;
+}
+
+.header{
+    text-align: center;
+}
+
+.full-width{
+    width: 80%;
+}
+
+.form{
+    padding-bottom: 2em ;
+}

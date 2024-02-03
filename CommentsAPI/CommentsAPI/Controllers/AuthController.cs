@@ -84,6 +84,7 @@ namespace CommentsAPI.Controllers
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email),
             };
 
             var roles = await _userManager.GetRolesAsync(user);
