@@ -5,20 +5,21 @@ import { CommonModule } from '@angular/common';
 import { ChangeUserNamePartialComponent } from "./change-user-name-partial/change-user-name-partial.component";
 import { ChangeEmailPartialComponent } from "./change-email-partial/change-email-partial.component";
 import { ChangePasswordPartialComponent } from "./change-password-partial/change-password-partial.component";
+import { DeleteAccountPartialComponent } from "./delete-account-partial/delete-account-partial.component";
 
 @Component({
     selector: 'app-account-management',
     standalone: true,
     templateUrl: './account-management.component.html',
     styleUrl: './account-management.component.css',
-    imports: [CommonModule, MaterialsModule, ChangeUserNamePartialComponent, ChangeEmailPartialComponent, ChangePasswordPartialComponent]
+    imports: [CommonModule, MaterialsModule, ChangeUserNamePartialComponent, ChangeEmailPartialComponent, ChangePasswordPartialComponent, DeleteAccountPartialComponent]
 })
 export class AccountManagementComponent implements OnInit{
 
   panelOpenState: boolean = false;
 
   constructor(
-    private Router:Router
+    private Router:Router,
   ) 
   {
     

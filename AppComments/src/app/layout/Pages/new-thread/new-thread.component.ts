@@ -60,7 +60,7 @@ export class NewThreadComponent implements OnInit{
             if (response.status) {
               setTimeout(() => {
                 this.Router.navigate(["threads"]);
-              }, 2000)
+              }, 1000)
               this.Utilities.Alert(response.message, "Ok");
               this.ShowLoading = false;
             }

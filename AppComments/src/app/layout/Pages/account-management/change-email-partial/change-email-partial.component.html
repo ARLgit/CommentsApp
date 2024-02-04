@@ -1,1 +1,17 @@
-<p>change-email-partial works!</p>
+<mat-card-content>
+
+    <form [formGroup]="EmailUpdateForm" (ngSubmit)="changeEmail()">
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nuevo Email</mat-label>
+            <input formControlName="newEmail" matInput AutoComplete="off">
+            <mat-icon matSuffix>account_circle</mat-icon>
+        </mat-form-field>
+
+        <button class="full-width" mat-raised-button color="primary" type="submit" [disabled]="EmailUpdateForm.invalid">
+            <mat-icon matSuffix>edit</mat-icon> Cambiar Email
+        </button>
+
+    </form>
+
+</mat-card-content>

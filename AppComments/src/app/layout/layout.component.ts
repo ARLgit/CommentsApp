@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MaterialsModule } from '../MaterialsModule/materials/materials.module';
 import { LogInComponent } from "./Pages/log-in/log-in.component";
 import { CookieService } from 'ngx-cookie-service';
@@ -19,7 +19,11 @@ export class LayoutComponent implements OnInit {
 
   constructor(
     private cookies:CookieService,
-    ) { }
+    private router:Router
+    ) 
+    { 
+
+    }
 
   ngOnInit() 
   {
@@ -37,6 +41,7 @@ export class LayoutComponent implements OnInit {
       this.loggedIn = false;
       this.cookies.delete("token");
       this.cookies.delete("session");
+      this.router.navigate([this.router.url, this.checkLogInStatus]);
     }
   }
 

@@ -49,26 +49,22 @@ export class SingUpComponent implements OnInit {
       email: this.RegistrationForm.value.email
     };
 
-    let result:string;
-
     this.Auth.register(request).subscribe(
       {
         next: response => {
-          result = response.message;
           if (response.status) {
             setTimeout(() => {
-              this.Router.navigate(["threads"]);
-            }, 2000)
+              this.Utilities.Alert(response.message, "Ok");
+            }, 1000)
           }
         },
         error: err => {
           this.ShowLoading = false;
-          result = err.error.message;
-          this.Utilities.Alert(result,"Opps!")
+          this.Utilities.Alert(err.error.message,"Opps!")
         },
         complete: () => { 
           this.ShowLoading = false;
-          this.Utilities.Alert(result, "Ok");
+          this.Router.navigate(["threads"]);
         }
       }
     );

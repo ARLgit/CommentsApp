@@ -1,0 +1,19 @@
+<mat-card-content>
+
+    <form [formGroup]="deleteForm" (ngSubmit)="deleteAccount()">
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input [type]="HidePassword ? 'password':'text'" matInput formControlName="password">
+            <button mat-icon-button matSuffix (click)="HidePassword = !HidePassword" type="button">
+                <mat-icon matSuffix>{{HidePassword ? 'visibility_off':'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <button class="full-width" mat-raised-button color="warn" class="full-width" type="submit" [disabled]="deleteForm.invalid">
+            <mat-icon matSuffix>edit</mat-icon> Borrar Cuenta
+        </button>
+
+    </form>
+
+</mat-card-content>

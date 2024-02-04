@@ -52,7 +52,7 @@ export class ThreadsComponent implements OnInit{
         next: (params) => {
           this.searchQuery = params.get('searchQuery') || null;
           this.page = +Number(params.get('page')) || 1;
-          this.size = +Number(params.get('size')) || 1;
+          this.size = +Number(params.get('size')) || 10;
         }
       }
     );
@@ -66,7 +66,7 @@ export class ThreadsComponent implements OnInit{
             this.threadList = response.body?.value;
             this.totalItemCount = pagination.TotalItemCount; 
             this.TotalPageCount = pagination.TotalPageCount;
-            console.log(this.threadList)
+            //console.log(this.threadList)
           }
         },
         error: (err) => {

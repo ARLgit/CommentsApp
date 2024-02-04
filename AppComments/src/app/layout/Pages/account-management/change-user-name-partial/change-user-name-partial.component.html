@@ -1,1 +1,17 @@
-<p>change-user-name-partial works!</p>
+<mat-card-content>
+
+    <form [formGroup]="UserNameUpdateForm" (ngSubmit)="changeUserName()">
+
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nuevo Usuario</mat-label>
+            <input formControlName="newUserName" matInput AutoComplete="off">
+            <mat-icon matSuffix>account_circle</mat-icon>
+        </mat-form-field>
+
+        <button class="full-width" mat-raised-button color="primary" type="submit" [disabled]="UserNameUpdateForm.invalid">
+            <mat-icon matSuffix>edit</mat-icon> Cambiar Usuario
+        </button>
+
+    </form>
+
+</mat-card-content>
