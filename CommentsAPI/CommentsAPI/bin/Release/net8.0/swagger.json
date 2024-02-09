@@ -1,0 +1,563 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CommentsAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/Auth/Register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/RegisterUserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/LogIn": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/LogInRequestDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/UpdateUser": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/ChangePassword": {
+      "put": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/ChangePasswordDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Auth/DeleteUser": {
+      "delete": {
+        "tags": [
+          "Auth"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/DeleteUserDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Comments/GetComments/{threadId}": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Comments/PostComment": {
+      "post": {
+        "tags": [
+          "Comments"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/PostCommentDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Comments/UpdateComment/{commentId}": {
+      "put": {
+        "tags": [
+          "Comments"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commentId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCommentDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Comments/DeleteComment/{commentId}": {
+      "delete": {
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "commentId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Threads/GetThreads": {
+      "get": {
+        "tags": [
+          "Threads"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "searchQuery",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Threads/GetThread/{threadId}": {
+      "get": {
+        "tags": [
+          "Threads"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "query",
+            "name": "getReplies",
+            "type": "boolean",
+            "default": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Threads/PostThread": {
+      "post": {
+        "tags": [
+          "Threads"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/PostThreadDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Threads/UpdateThread/{threadId}": {
+      "put": {
+        "tags": [
+          "Threads"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/UpdateThreadDTO"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Threads/DeleteThread/{threadId}": {
+      "delete": {
+        "tags": [
+          "Threads"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "threadId",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ChangePasswordDTO": {
+      "required": [
+        "newPassword",
+        "oldPassword"
+      ],
+      "type": "object",
+      "properties": {
+        "oldPassword": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "newPassword": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "DeleteUserDTO": {
+      "required": [
+        "password"
+      ],
+      "type": "object",
+      "properties": {
+        "password": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "LogInRequestDTO": {
+      "required": [
+        "password",
+        "userName"
+      ],
+      "type": "object",
+      "properties": {
+        "userName": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "password": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "PostCommentDTO": {
+      "required": [
+        "content",
+        "creationDate",
+        "creatorId",
+        "threadId"
+      ],
+      "type": "object",
+      "properties": {
+        "threadId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "creatorId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "parentId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "content": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "creationDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "PostThreadDTO": {
+      "required": [
+        "content",
+        "creationDate",
+        "creatorId",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "creatorId": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "title": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "content": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "creationDate": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "RegisterUserDTO": {
+      "required": [
+        "email",
+        "password",
+        "userName"
+      ],
+      "type": "object",
+      "properties": {
+        "userName": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "password": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "email": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "UpdateCommentDTO": {
+      "required": [
+        "content"
+      ],
+      "type": "object",
+      "properties": {
+        "content": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "UpdateThreadDTO": {
+      "required": [
+        "content",
+        "title"
+      ],
+      "type": "object",
+      "properties": {
+        "title": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "content": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "UpdateUserDTO": {
+      "required": [
+        "email",
+        "userName"
+      ],
+      "type": "object",
+      "properties": {
+        "userName": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "email": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "CommentsApiBearerAuth": { }
+  },
+  "security": [
+    {
+      "CommentsApiBearerAuth": [ ]
+    }
+  ]
+}

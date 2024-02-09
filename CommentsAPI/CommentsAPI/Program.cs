@@ -20,12 +20,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
-
-/*builder.Services.AddSqlServer<CommentsDbContext>(builder.Configuration.GetConnectionString("CommentsDB"))
-    .AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole<int>>()
-    .AddEntityFrameworkStores<CommentsDbContext>();*/
 builder.Services.AddDbContext<CommentsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CommentsDB")));
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(options => options.SignIn.RequireConfirmedAccount = true)
