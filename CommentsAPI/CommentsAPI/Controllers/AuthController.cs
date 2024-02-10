@@ -1,18 +1,12 @@
-﻿using AutoMapper;
-using Azure.Core;
-using CommentsAPI.Entities;
+﻿using CommentsAPI.Entities;
 using CommentsAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,11 +17,7 @@ namespace CommentsAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
-        //private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
-        /*private readonly IUserStore<ApplicationUser> _userStore;
-        private readonly IUserEmailStore<ApplicationUser> _userEmailStore;*/
         public AuthController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole<int>> roleManager,
@@ -36,8 +26,6 @@ namespace CommentsAPI.Controllers
         {
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
-            _roleManager = roleManager ??
-                throw new ArgumentNullException(nameof(roleManager));
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
         }
@@ -187,7 +175,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = true, Message = "La contraseña se ha cambiado exitosamente." });
         }
 
-        // DELETE api/<AuthController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
+        // DELETE api/<AuthController>/5
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser([FromBody] DeleteUserDTO userDTO)

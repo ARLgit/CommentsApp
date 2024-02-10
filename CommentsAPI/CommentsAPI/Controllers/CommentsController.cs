@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using CommentsAPI.Entities;
 using CommentsAPI.Models;
-using CommentsAPI.Services;
 using CommentsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
-using System.Threading;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -102,7 +100,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = true, Message = "El comentario ha side actualizado exitosamente." });
         }
 
-        // DELETE api/<CommentsController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
+        // DELETE api/<CommentsController>/5
         [HttpDelete("DeleteComment/{commentId}")]
         public async Task<IActionResult> DeleteComment(int commentId)
         {

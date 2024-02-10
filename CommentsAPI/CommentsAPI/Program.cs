@@ -4,11 +4,9 @@ using CommentsAPI.Services;
 using CommentsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,10 +36,6 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.AddSwaggerGen(setupAction =>
 {
-    var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
-
-    //setupAction.IncludeXmlComments(xmlCommentsFullPath);
 
     setupAction.AddSecurityDefinition("CommentsApiBearerAuth", new OpenApiSecurityScheme()
     {
@@ -103,8 +97,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-/*app.MapIdentityApi<ApplicationUser>(); */ //probaly not gonna use this, check Prog. folder for identity documentation
 
 app.UseHttpsRedirection();
 

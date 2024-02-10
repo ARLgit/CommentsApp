@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using CommentsAPI.Entities;
 using CommentsAPI.Models;
-using CommentsAPI.Services;
 using CommentsAPI.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.Design;
 using System.Security.Claims;
 using System.Text.Json;
-using System.Xml.Linq;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -133,7 +128,7 @@ namespace CommentsAPI.Controllers
                     new Response { Status = true, Message = "El Hilo ha side actualizado exitosamente." });
         }
 
-        // DELETE api/<ThreadsController>/5 NEED TO CHECK ALL DELETE ENDPOINTS.
+        // DELETE api/<ThreadsController>/5
         [HttpDelete("DeleteThread/{threadId}")]
         public async Task<IActionResult> DeleteThread(int threadId)
         {
