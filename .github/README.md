@@ -45,6 +45,8 @@ Asegurese de contar con las siguientes herramientas antes de clonar este proyect
 ### Back End.
 - [Visual Studio](https://visualstudio.microsoft.com/es/downloads/)
     - Durante la instalacion seleccione "ASP.NET and web developement."
+- [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms)
+- [SQL Server Express](https://www.microsoft.com/es-ar/sql-server/sql-server-downloads)
 
 ### Front End.
 - IDE de preferencia, ejemplo: [Visual Studio Code](https://code.visualstudio.com/download)
@@ -52,4 +54,21 @@ Asegurese de contar con las siguientes herramientas antes de clonar este proyect
 - [Angular CLI](https://angular.io/cli)
 
 ## Instalacion.
-En proceso, llegara pronto.
+0. Instale todos los Pre-Requisitos.
+1. Clone el repositorio.
+
+### Back End.
+2. Ir a ..\CommentsApp\CommentsAPI
+3. Abrir CommentsAPI.sln
+4. Espere a que se instalen las dependencias.
+    - Si lo desea, valla a appsettings.json y cambie la connection string.
+    - Si las dependencias no se instalan automaticamente salte al proximo paso y ejecute el comando "dotnet restore"
+5. Valla a Herramientas -> Administrador de paquetes NuGet -> Consola del Administador de Paquetes.
+6. Ingrese el commando "Update-Database"
+
+### Front End.
+2. Abra CommentsApp en su IDE y abra una consola de comando.
+3. ngrese el comando "cd AppComments"
+4. Ingrese el comando "npm install -g @angular/cli"
+5. Ingrese el comando "npm install"
+6. Si desea cambiar la url de la API valla a ..\CommentsApp\AppComments\src\environments\environment.ts
