@@ -8,11 +8,13 @@
 - [Instalacion](#Instalacion)
 
 ## Descripcion.
-CommentsApp es un proyecto creado durante Enero de 2024 con el propósito de actualizar mis conocimientos de .NET core, APIs, SQL server, Angular y manejo de JWT tokens.
+CommentsApp es un proyecto creado durante Enero de 2024 con el propósito de actualizar mis conocimientos de .NET core, APIs, SQL server, Angular y manejo de JWT tokens. 
 
-El back end del projecto cuenta con una API creada con .NET core 8 y una base de datos de SQL Server Express creada a traves de Migraciones de Entity Framework, diseñada con la metodologia Code-First.
+El back end del proyecto cuenta con una API creada con .NET core 8 y una base de datos de SQL Server Express creada a traves de Migraciones de Entity Framework, diseñada con la metodologia Code-First.
 
-EL front end es una Web App creada usando Angular 17.
+EL front end es una Web App creada usando Angular 17 la cual consulta la API utilizando pedidos http.
+
+CommentsApp consiste de un foro en cual los usuarios pueden buscar y/o crear hilos de discusion y responder a los mismos. Los usuarios pueden crear, editar y borrar cuentas, hilos y comenterios.
 
 ## TechStack.
 ### Back End.
@@ -61,14 +63,14 @@ Asegurese de contar con las siguientes herramientas antes de clonar este proyect
 2. Ir a ..\CommentsApp\CommentsAPI
 3. Abrir CommentsAPI.sln
 4. Espere a que se instalen las dependencias.
-    - Si lo desea, valla a appsettings.json y cambie la connection string.
+    - Si lo desea, vaya a appsettings.json y cambie la connection string.
     - Si las dependencias no se instalan automaticamente salte al proximo paso y ejecute el comando "dotnet restore"
-5. Valla a Herramientas -> Administrador de paquetes NuGet -> Consola del Administador de Paquetes.
-6. Ingrese el commando "Update-Database"
+5. Vaya a Herramientas -> Administrador de paquetes NuGet -> Consola del Administador de Paquetes.
+6. Ingrese el comando "Update-Database"
 
 ### Front End.
 2. Abra CommentsApp en su IDE y abra una consola de comando.
-3. ngrese el comando "cd AppComments"
+3. Ingrese el comando "cd AppComments"
 4. Ingrese el comando "npm install -g @angular/cli"
 5. Ingrese el comando "npm install"
-6. Si desea cambiar la url de la API valla a ..\CommentsApp\AppComments\src\environments\environment.ts
+6. Si desea cambiar la url de la API vaya a ..\CommentsApp\AppComments\src\environments\environment.ts
