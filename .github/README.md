@@ -14,7 +14,7 @@ El back end del proyecto cuenta con una API creada con .NET core 8 y una base de
 
 EL front end es una Web App creada usando Angular 17 la cual consulta la API utilizando pedidos http.
 
-CommentsApp consiste de un foro en cual los usuarios pueden buscar y/o crear hilos de discusion y responder a los mismos. Los usuarios pueden crear, editar y borrar cuentas, hilos y comenterios.
+CommentsApp consiste de un foro en el cual los usuarios pueden buscar y/o crear hilos de discusion y responder a los mismos. Los usuarios pueden crear, editar y borrar cuentas, hilos y comentarios.
 
 ## TechStack.
 ### Back End.
