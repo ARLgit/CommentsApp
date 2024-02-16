@@ -8,11 +8,11 @@
 - [Instalacion](#Instalacion)
 
 ## Descripcion.
-CommentsApp es un proyecto creado durante Enero de 2024 con el propósito de actualizar mis conocimientos de .NET core, APIs, SQL server, Angular y manejo de JWT tokens. 
+CommentsApp es un proyecto creado durante Enero de 2024 con el proposito de actualizar mis conocimientos de .NET core, APIs, SQL server, Angular y manejo de JWT tokens. 
 
 El back end del proyecto cuenta con una API creada con .NET core 8 y una base de datos de SQL Server Express creada a traves de Migraciones de Entity Framework, diseñada con la metodologia Code-First.
 
-EL front end es una Web App creada usando Angular 17 la cual consulta la API utilizando pedidos http.
+El front end es una Web App creada usando Angular 17 la cual consulta la API utilizando pedidos http.
 
 CommentsApp consiste de un foro en el cual los usuarios pueden buscar y/o crear hilos de discusion y responder a los mismos. Los usuarios pueden crear, editar y borrar cuentas, hilos y comentarios.
 

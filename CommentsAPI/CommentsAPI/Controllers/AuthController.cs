@@ -17,6 +17,7 @@ namespace CommentsAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly IConfiguration _configuration;
         public AuthController(
             UserManager<ApplicationUser> userManager,
@@ -26,6 +27,8 @@ namespace CommentsAPI.Controllers
         {
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
+            _roleManager = roleManager ??
+                throw new ArgumentNullException(nameof(roleManager));
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
         }
@@ -34,6 +37,16 @@ namespace CommentsAPI.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDTO newUser)
         {
+            if (!(await _roleManager.RoleExistsAsync("User")))
+            {
+                IdentityRole<int> role = new IdentityRole<int>("User") { ConcurrencyStamp = Guid.NewGuid().ToString() };
+                var roleResult = await _roleManager.CreateAsync(role);
+                if (!roleResult.Succeeded)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError,
+                    new Response<IEnumerable<IdentityError>> { Status = false, Value = roleResult.Errors, Message = "El Rol de Usuario no ha podido registrarse." });
+                }
+            }
             var userExists = await _userManager.FindByEmailAsync(newUser.Email);
             if (userExists != null)
             {
